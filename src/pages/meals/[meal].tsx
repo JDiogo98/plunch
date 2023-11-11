@@ -7,7 +7,7 @@ const Meal = () => {
 
   return (
     <>
-      <p>Vais comer {meal} </p>
+      <p>Vais comer {meal}. </p>
       <Link href="/"> Home</Link>
     </>
   );
