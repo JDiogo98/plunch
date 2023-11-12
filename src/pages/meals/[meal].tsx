@@ -8,7 +8,7 @@ const Meal = () => {
   return (
     <>
       <p>Vais comer {meal}. </p>
-      <Link href="/"> Home</Link>
+      <Link href="/" style={{color: "blue"}}> Home</Link>
     </>
   );
 };
