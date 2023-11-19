@@ -1,4 +1,13 @@
-const MealsDefault = () => {
+
+
+
+
+
+
+
+
+
+const LandingPage = () => {
   return (
     <>
       <p>Estás todo default</p>
@@ -6,4 +15,4 @@ const MealsDefault = () => {
   );
 };
 
-export default MealsDefault;
+export default LandingPage;
