@@ -29,10 +29,22 @@ const LandingImages = styled(Image)`
 const LandingText = styled.span`
   color: black;
   text-align: justify;
+  font-family: "Geomanist", sans-serif;
   padding: 3rem;
   @media (max-width: 600px) {
     font-size: 2.5rem;
   }
+`;
+
+const LandingButton = styled.button`
+  background-color: #c8161d;
+  color: #ffffff;
+  border: none;
+  padding: 1.5rem;
+  margin: 1rem;
+  font-family: 'Geomanist', sans-serif;
+  border-radius: 25px;
+  font-size: 2.5rem;
 `;
 
 const LandingLogo = styled(Image)``;
@@ -40,6 +52,7 @@ const LandingLogo = styled(Image)``;
 export default function LandingPage() {
   return (
     <>
+      <link rel="stylesheet" href="https://fonts.cdnfonts.com/css/geomanist" />
       <Container>
         <ImagesContainer>
           <LandingImages
@@ -52,11 +65,11 @@ export default function LandingPage() {
               backgroundColor: "#C8161D",
               borderRadius: "25px",
               marginTop: "-20rem",
-              marginBottom: "15rem"
+              marginBottom: "15rem",
             }}
           ></div>
           <LandingImages
-            style={{ gridColumn: "1/1", gridRow: "2/2"}}
+            style={{ gridColumn: "1/1", gridRow: "2/2" }}
             src={M_E2}
             alt="Image Error"
           ></LandingImages>
@@ -74,6 +87,8 @@ export default function LandingPage() {
           family meal planning. Discover the freedom of a more practical kitchen
           with Plunch!
         </LandingText>
+        <LandingButton>Log In</LandingButton>
+        <LandingButton>Sign Up</LandingButton>
       </Container>
     </>
   );
