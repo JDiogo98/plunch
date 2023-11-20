@@ -2,9 +2,15 @@ import React from "react";
 import plunchLogo from "../../public/Logo-W_R.png";
 import styled from "styled-components";
 import Image from "next/image";
+import DownloadAppStore from "../../public/DownloadAppStore.svg";
+import DownloadPlayStore from "../../public/DownloadGoogle Play.svg";
 import M_E1 from "../../public/M - E1.jpg";
 import M_E2 from "../../public/M - E2.jpg";
 import M_D2 from "../../public/M - D2.jpg";
+import { InstaSvg } from "../../public/InstaSvg";
+import { stringify } from "querystring";
+import { FaceSvg } from "../../public/faceSvg";
+import { WhatsSvg } from "../../public/WhatsSvg";
 
 const Container = styled.div`
   display: flex;
@@ -41,13 +47,45 @@ const LandingButton = styled.button`
   color: #ffffff;
   border: none;
   padding: 1.5rem;
-  margin: 1rem;
-  font-family: 'Geomanist', sans-serif;
+  margin: 2rem;
+  font-family: "Geomanist", sans-serif;
   border-radius: 25px;
   font-size: 2.5rem;
 `;
 
-const LandingLogo = styled(Image)``;
+const LandingLogo = styled(Image)`
+  margin-top: -5rem;
+  z-index: -3;
+`;
+
+const LandingFooter = styled.footer`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #c8161d;
+  color: #ffffff;
+  margin-top: 5rem;
+  padding: 2rem;
+`;
+
+
+const FooterTitle = styled.span`
+padding: 4rem;
+font-size: 3rem;
+`
+
+const DownloadsDiv = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: space-evenly;
+`;
+
+
+const AppsLink = styled(Image)`
+  max-width: 100%;
+  width: 20rem;
+  height: auto;
+`;
 
 export default function LandingPage() {
   return (
@@ -90,6 +128,19 @@ export default function LandingPage() {
         <LandingButton>Log In</LandingButton>
         <LandingButton>Sign Up</LandingButton>
       </Container>
+      <LandingFooter>
+        <FooterTitle>Download our App</FooterTitle>
+        <DownloadsDiv>
+          <AppsLink src={DownloadAppStore} alt="Error at AppStore"></AppsLink>
+          <AppsLink src={DownloadPlayStore} alt="Error at PlayStore"></AppsLink>
+        </DownloadsDiv>
+        <FooterTitle>Follow Us</FooterTitle>
+          <div style={{display: "flex", gap: "2rem"}}>
+        <InstaSvg></InstaSvg>
+        <FaceSvg></FaceSvg>
+        <WhatsSvg></WhatsSvg>
+        </div>
+      </LandingFooter>
     </>
   );
 }
