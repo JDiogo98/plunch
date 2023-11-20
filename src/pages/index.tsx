@@ -68,18 +68,16 @@ const LandingFooter = styled.footer`
   padding: 2rem;
 `;
 
-
 const FooterTitle = styled.span`
-padding: 4rem;
-font-size: 3rem;
-`
+  padding: 4rem;
+  font-size: 3rem;
+`;
 
 const DownloadsDiv = styled.div`
   display: flex;
   width: 100%;
   justify-content: space-evenly;
 `;
-
 
 const AppsLink = styled(Image)`
   max-width: 100%;
@@ -135,10 +133,10 @@ export default function LandingPage() {
           <AppsLink src={DownloadPlayStore} alt="Error at PlayStore"></AppsLink>
         </DownloadsDiv>
         <FooterTitle>Follow Us</FooterTitle>
-          <div style={{display: "flex", gap: "2rem"}}>
-        <InstaSvg></InstaSvg>
-        <FaceSvg></FaceSvg>
-        <WhatsSvg></WhatsSvg>
+        <div style={{ display: "flex", gap: "2rem" }}>
+          <InstaSvg></InstaSvg>
+          <FaceSvg></FaceSvg>
+          <WhatsSvg></WhatsSvg>
         </div>
       </LandingFooter>
     </>
