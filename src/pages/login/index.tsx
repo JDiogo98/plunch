@@ -1,10 +1,12 @@
+import axios from "axios";
+import { setCookie } from "cookies-next";
 import React, { useState } from "react";
 import styled from "styled-components";
 
 export const LogInContainer = styled.div`
   width: 100%;
   display: grid;
-  margin: 2rem;
+  padding: 1rem;
   grid-template-rows: 20px 150px 3fr 0.6fr 1fr;
 `;
 
@@ -12,7 +14,7 @@ export type requestType = {
   isLoading: boolean;
   error: boolean;
   submitted: boolean;
-  errorMessage: string;
+  errorMessage: string | any;
 };
 
 export const defaultRequest: requestType = {
@@ -61,6 +63,9 @@ export const AuthButton = styled.button`
   place-self: center;
   border: none;
   border-radius: 15px;
+  &:hover {
+    opacity: 0.6;
+  }
 `;
 
 export const BlackXSText = styled.p`
@@ -90,6 +95,35 @@ export default function LogInPage() {
   const [password, setPassword] = useState<string>("");
   const [request, setRequest] = useState<requestType>(defaultRequest);
 
+  const onLogInSubmit = async (e: Event) => {
+    try {
+      e.preventDefault();
+      setRequest({
+        isLoading: true,
+        error: false,
+        errorMessage: "",
+        submitted: false,
+      });
+
+      const response = await axios.post(
+        "https://x8ki-letl-twmt.n7.xano.io/api:pXhZqBYW/auth/login",
+        { email, password }
+      );
+    } catch (error: any) {
+      console.log("Error at login");
+      setRequest({
+        error: true,
+        errorMessage: error.response.data.message,
+        isLoading: false,
+        submitted: false,
+      });
+    }
+  };
+
+  const allCookies = cookies().getAll();
+
+  console.log(allCookies);
+
   return (
     <>
       <LogInContainer>
@@ -106,7 +140,7 @@ export default function LogInPage() {
           <BlackLText>Hey!</BlackLText>
           <GreyMText>Let's cook</GreyMText>
         </div>
-        <AuthForm>
+        <AuthForm onSubmit={onLogInSubmit}>
           <BlackXLText style={{ textAlign: "center", margin: "1rem" }}>
             Log In
           </BlackXLText>
@@ -136,7 +170,13 @@ export default function LogInPage() {
             </BlackXSText>
           </div>
         </AuthForm>
-        <AuthButton>LOG IN</AuthButton>
+        <AuthButton
+          onClick={() => {
+            setCookie("token", "teste");
+          }}
+        >
+          LOG IN
+        </AuthButton>
         <BlackSText
           style={{
             gridRow: "5/6",

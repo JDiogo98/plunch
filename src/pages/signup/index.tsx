@@ -15,9 +15,14 @@ import {
   requestType,
 } from "../login";
 import axios from "axios";
-import { error } from "console";
 
-const SignUpContainer = styled(LogInContainer)``;
+const SignUpContainer = styled(LogInContainer)`
+  max-width: 500px;
+`;
+
+
+
+
 
 export default function LogInPage() {
   const [email, setEmail] = useState<string>("");
@@ -35,8 +40,6 @@ export default function LogInPage() {
         errorMessage: "",
         submitted: false,
       });
-
-      console.log(firstName, lastName);
 
       await axios.post(
         "https://x8ki-letl-twmt.n7.xano.io/api:pXhZqBYW/auth/signup",
