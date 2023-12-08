@@ -1,138 +1,60 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import styled from "styled-components";
 import dayjs from "dayjs";
 import isoWeek from "dayjs/plugin/isoWeek";
 import isoWeekInYear from "dayjs/plugin/isoWeeksInYear";
 import isoLeapInYear from "dayjs/plugin/isLeapYear";
-import { set } from "date-fns";
-import { type } from "os";
+import { TDWeekMeal, TDWeekMealContainer } from "./mealAtWeekPlaneer";
+import { EmptyWeek } from "../../test";
+import { log } from "console";
+
+export const TDWeekMealDay = styled(TDWeekMealContainer)`
+  background-color: #c8161d;
+  color: #ffffff;
+  border-radius: 5px;
+  font-weight: 700;
+  margin: auto;
+`;
+export const TDWeelMealType = styled(TDWeekMealDay)``;
+export const WeekMealButton = styled.button`
+  width: 100%;
+  height: 100%;
+  font-size: 2rem;
+  font-weight: 600;
+  border: 1px solid #ffffff;
+  background-color: #989898;
+  border-radius: 10px;
+  color: #ffffff;
+`;
+export const WeekMealDate = styled.td`
+  background-color: #c8161d;
+  width: 100%;
+  height: 100%;
+  font-size: 2rem;
+  padding: 1rem;
+  border-radius: 15px;
+  opacity: 1;
+  transition: opacity 0.5s;
+  &:hover {
+    opacity: 0.6;
+  }
+`;
+export const WeekGridDiv = styled.table`
+  width: 85%;
+  border-radius: 15px;
+  padding: 1rem;
+  margin: auto;
+  border-collapse: separate;
+  background-color: #ffffff;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  background: linear-gradient(45deg, #ffffff, #dcdcdc);
+`;
+
+export const TRWeek = styled.tr``;
 
 dayjs.extend(isoWeek);
 dayjs.extend(isoWeekInYear);
 dayjs.extend(isoLeapInYear);
-
-const testeW = {
-  w_1: {
-    brk: {
-      id: "52893",
-      name: "Apple & Blackberry Crumble",
-      img: "https://www.themealdb.com/images/media/meals/xvsurr1511719182.jpg",
-    },
-    lun: {
-      id: "52872",
-      name: "Spanish Tortilla",
-      img: "https://www.themealdb.com/images/media/meals/quuxsx1511476154.jpg",
-    },
-    din: {
-      id: "52868",
-      name: "Kidney Bean Curry",
-      img: "https://www.themealdb.com/images/media/meals/sywrsu1511463066.jpg",
-    },
-  },
-  w_2: {
-    brk: {
-      id: "52893",
-      name: "Apple & Blackberry Crumble",
-      img: "https://www.themealdb.com/images/media/meals/xvsurr1511719182.jpg",
-    },
-    lun: {
-      id: "52872",
-      name: "Spanish Tortilla",
-      img: "https://www.themealdb.com/images/media/meals/quuxsx1511476154.jpg",
-    },
-    din: {
-      id: "52868",
-      name: "Kidney Bean Curry",
-      img: "https://www.themealdb.com/images/media/meals/sywrsu1511463066.jpg",
-    },
-  },
-  w_3: {
-    brk: {
-      id: "52893",
-      name: "Apple & Blackberry Crumble",
-      img: "https://www.themealdb.com/images/media/meals/xvsurr1511719182.jpg",
-    },
-    lun: {
-      id: "52872",
-      name: "Spanish Tortilla",
-      img: "https://www.themealdb.com/images/media/meals/quuxsx1511476154.jpg",
-    },
-    din: {
-      id: "52868",
-      name: "Kidney Bean Curry",
-      img: "https://www.themealdb.com/images/media/meals/sywrsu1511463066.jpg",
-    },
-  },
-  w_4: {
-    brk: {
-      id: "52893",
-      name: "Apple & Blackberry Crumble",
-      img: "https://www.themealdb.com/images/media/meals/xvsurr1511719182.jpg",
-    },
-    lun: {
-      id: "52872",
-      name: "Spanish Tortilla",
-      img: "https://www.themealdb.com/images/media/meals/quuxsx1511476154.jpg",
-    },
-    din: {
-      id: "52868",
-      name: "Kidney Bean Curry",
-      img: "https://www.themealdb.com/images/media/meals/sywrsu1511463066.jpg",
-    },
-  },
-  w_5: {
-    brk: {
-      id: "52893",
-      name: "Apple & Blackberry Crumble",
-      img: "https://www.themealdb.com/images/media/meals/xvsurr1511719182.jpg",
-    },
-    lun: {
-      id: "52872",
-      name: "Spanish Tortilla",
-      img: "https://www.themealdb.com/images/media/meals/quuxsx1511476154.jpg",
-    },
-    din: {
-      id: null,
-      name: null,
-      img: null,
-    },
-  },
-  w_6: {
-    brk: {
-      id: "52893",
-      name: "Apple & Blackberry Crumble",
-      img: "https://www.themealdb.com/images/media/meals/xvsurr1511719182.jpg",
-    },
-    lun: {
-      id: "52872",
-      name: "Spanish Tortilla",
-      img: "https://www.themealdb.com/images/media/meals/quuxsx1511476154.jpg",
-    },
-    din: {
-      id: "52868",
-      name: "Kidney Bean Curry",
-      img: "https://www.themealdb.com/images/media/meals/sywrsu1511463066.jpg",
-    },
-  },
-  w_7: {
-    brk: {
-      id: "52893",
-      name: "Apple & Blackberry Crumble",
-      img: "https://www.themealdb.com/images/media/meals/xvsurr1511719182.jpg",
-    },
-    lun: {
-      id: "52872",
-      name: "Spanish Tortilla",
-      img: "https://www.themealdb.com/images/media/meals/quuxsx1511476154.jpg",
-    },
-    din: {
-      id: "52868",
-      name: "Kidney Bean Curry",
-      img: "https://www.themealdb.com/images/media/meals/sywrsu1511463066.jpg",
-    },
-  },
-};
 
 type PlanMeal = {
   id: string | null;
@@ -174,49 +96,40 @@ type ThisType = {
   plans: PlansStructure;
 };
 
-export default function WeekMeal() {
-  const [currentWeek, setCurrentWeek] = useState<PlansStructure>(testeW);
-
+export default function WeekMeal({ userData }: any) {
   const [date, setDate] = useState(dayjs());
+  const [weekYear, setWeekYear] = useState(
+    date.isoWeek() + "_" + date.format("YY")
+  );
   const [startOfTheWeek, setStartOfTheWeek] = useState(date.startOf("week"));
   const [endOfTheWeek, setEndOfTheWeek] = useState(date.endOf("week"));
-  const [weekYear, setWeekYear] = useState(dayjs().isoWeek());
 
-  console.log(startOfTheWeek);
+  const [sessionWeeks, setSessionWeeks] = useState(userData["plans_of_user"]["plans"]);
 
   function add1Week() {
     setDate(date.add(1, "week"));
-    refreshDates();
+    refreshDates(date.add(1, "week"));
   }
   function sub1Week() {
     setDate(date.subtract(1, "week"));
-    refreshDates();
+    refreshDates(date.subtract(1, "week"));
   }
 
-  function refreshDates() {
+  function refreshDates(date: any) {
     setStartOfTheWeek(date.startOf("week"));
     setEndOfTheWeek(date.endOf("week"));
-    setWeekYear(date.isoWeek());
+    setWeekYear(date.isoWeek() + "_" + date.format("YY"));
+
+    let newWeek = date.isoWeek() + "_" + date.format("YY");
+
+    if (!Object.keys(sessionWeeks).includes(newWeek)) {
+      setSessionWeeks({ ...sessionWeeks, [newWeek]: EmptyWeek });
+    }
   }
-
-  // const testefunc2 = async () => {
-  //   try {
-  //     const response = await axios.get(
-  //       "https://www.themealdb.com/api/json/v1/1/random.php"
-  //     );
-  //     setTeste(response.data["meals"]);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   testefunc2();
-  // }, []);
 
   return (
     <>
-      {currentWeek ? (
+      {userData && (
         <WeekGridDiv>
           <TRWeek>
             <WeekMealDate colSpan={4}>{`${startOfTheWeek.format(
@@ -253,9 +166,15 @@ export default function WeekMeal() {
               <br></br>
               {startOfTheWeek.format("(DD-MM)")}
             </TDWeekMealDay>
-            <TDWeekMeal meal={currentWeek["w_1"]["brk"]}></TDWeekMeal>
-            <TDWeekMeal meal={currentWeek["w_1"]["lun"]}></TDWeekMeal>
-            <TDWeekMeal meal={currentWeek["w_1"]["din"]}></TDWeekMeal>
+            <TDWeekMeal
+              meal={sessionWeeks[weekYear]["w_1"]["brk"]}
+            ></TDWeekMeal>
+            <TDWeekMeal
+              meal={sessionWeeks[weekYear]["w_1"]["lun"]}
+            ></TDWeekMeal>
+            <TDWeekMeal
+              meal={sessionWeeks[weekYear]["w_1"]["din"]}
+            ></TDWeekMeal>
           </TRWeek>
           <TRWeek>
             <TDWeekMealDay>
@@ -263,9 +182,15 @@ export default function WeekMeal() {
               <br></br>
               {startOfTheWeek.add(1, "day").format("(DD-MM)")}
             </TDWeekMealDay>
-            <TDWeekMeal meal={currentWeek["w_2"]["brk"]}></TDWeekMeal>
-            <TDWeekMeal meal={currentWeek["w_2"]["lun"]}></TDWeekMeal>
-            <TDWeekMeal meal={currentWeek["w_2"]["din"]}></TDWeekMeal>
+            <TDWeekMeal
+              meal={sessionWeeks[weekYear]["w_2"]["brk"]}
+            ></TDWeekMeal>
+            <TDWeekMeal
+              meal={sessionWeeks[weekYear]["w_2"]["lun"]}
+            ></TDWeekMeal>
+            <TDWeekMeal
+              meal={sessionWeeks[weekYear]["w_2"]["din"]}
+            ></TDWeekMeal>
           </TRWeek>
           <TRWeek>
             <TDWeekMealDay>
@@ -273,9 +198,15 @@ export default function WeekMeal() {
               <br></br>
               {startOfTheWeek.add(2, "day").format("(DD-MM)")}
             </TDWeekMealDay>
-            <TDWeekMeal meal={currentWeek["w_3"]["brk"]}></TDWeekMeal>
-            <TDWeekMeal meal={currentWeek["w_3"]["lun"]}></TDWeekMeal>
-            <TDWeekMeal meal={currentWeek["w_3"]["din"]}></TDWeekMeal>
+            <TDWeekMeal
+              meal={sessionWeeks[weekYear]["w_3"]["brk"]}
+            ></TDWeekMeal>
+            <TDWeekMeal
+              meal={sessionWeeks[weekYear]["w_3"]["lun"]}
+            ></TDWeekMeal>
+            <TDWeekMeal
+              meal={sessionWeeks[weekYear]["w_3"]["din"]}
+            ></TDWeekMeal>
           </TRWeek>
           <TRWeek>
             <TDWeekMealDay>
@@ -283,9 +214,15 @@ export default function WeekMeal() {
               <br></br>
               {startOfTheWeek.add(3, "day").format("(DD-MM)")}
             </TDWeekMealDay>
-            <TDWeekMeal meal={currentWeek["w_4"]["brk"]}></TDWeekMeal>
-            <TDWeekMeal meal={currentWeek["w_4"]["lun"]}></TDWeekMeal>
-            <TDWeekMeal meal={currentWeek["w_4"]["din"]}></TDWeekMeal>
+            <TDWeekMeal
+              meal={sessionWeeks[weekYear]["w_4"]["brk"]}
+            ></TDWeekMeal>
+            <TDWeekMeal
+              meal={sessionWeeks[weekYear]["w_4"]["lun"]}
+            ></TDWeekMeal>
+            <TDWeekMeal
+              meal={sessionWeeks[weekYear]["w_4"]["din"]}
+            ></TDWeekMeal>
           </TRWeek>
           <TRWeek>
             <TDWeekMealDay>
@@ -293,9 +230,15 @@ export default function WeekMeal() {
               <br></br>
               {startOfTheWeek.add(4, "day").format("(DD-MM)")}
             </TDWeekMealDay>
-            <TDWeekMeal meal={currentWeek["w_5"]["brk"]}></TDWeekMeal>
-            <TDWeekMeal meal={currentWeek["w_5"]["lun"]}></TDWeekMeal>
-            <TDWeekMeal meal={currentWeek["w_5"]["din"]}></TDWeekMeal>
+            <TDWeekMeal
+              meal={sessionWeeks[weekYear]["w_5"]["brk"]}
+            ></TDWeekMeal>
+            <TDWeekMeal
+              meal={sessionWeeks[weekYear]["w_5"]["lun"]}
+            ></TDWeekMeal>
+            <TDWeekMeal
+              meal={sessionWeeks[weekYear]["w_5"]["din"]}
+            ></TDWeekMeal>
           </TRWeek>
           <TRWeek>
             <TDWeekMealDay>
@@ -303,9 +246,15 @@ export default function WeekMeal() {
               <br></br>
               {startOfTheWeek.add(5, "day").format("(DD-MM)")}
             </TDWeekMealDay>
-            <TDWeekMeal meal={currentWeek["w_6"]["brk"]}></TDWeekMeal>
-            <TDWeekMeal meal={currentWeek["w_6"]["lun"]}></TDWeekMeal>
-            <TDWeekMeal meal={currentWeek["w_6"]["din"]}></TDWeekMeal>
+            <TDWeekMeal
+              meal={sessionWeeks[weekYear]["w_6"]["brk"]}
+            ></TDWeekMeal>
+            <TDWeekMeal
+              meal={sessionWeeks[weekYear]["w_6"]["lun"]}
+            ></TDWeekMeal>
+            <TDWeekMeal
+              meal={sessionWeeks[weekYear]["w_6"]["din"]}
+            ></TDWeekMeal>
           </TRWeek>
           <TRWeek>
             <TDWeekMealDay>
@@ -313,83 +262,18 @@ export default function WeekMeal() {
               <br></br>
               {startOfTheWeek.add(6, "day").format("(DD-MM)")}
             </TDWeekMealDay>
-            <TDWeekMeal meal={currentWeek["w_7"]["brk"]}></TDWeekMeal>
-            <TDWeekMeal meal={currentWeek["w_7"]["lun"]}></TDWeekMeal>
-            <TDWeekMeal meal={currentWeek["w_7"]["din"]}></TDWeekMeal>
+            <TDWeekMeal
+              meal={sessionWeeks[weekYear]["w_7"]["brk"]}
+            ></TDWeekMeal>
+            <TDWeekMeal
+              meal={sessionWeeks[weekYear]["w_7"]["lun"]}
+            ></TDWeekMeal>
+            <TDWeekMeal
+              meal={sessionWeeks[weekYear]["w_7"]["din"]}
+            ></TDWeekMeal>
           </TRWeek>
         </WeekGridDiv>
-      ) : null}
+      )}
     </>
   );
 }
-
-const TDWeekMeal: React.FC<{ meal?: PlanMeal }> = ({ meal }) => {
-  console.log(meal);
-
-  return (
-    <>
-      <TDWeekMealContainer>
-        {meal["name"] !== null ? (
-          <TDWeekMealText>{meal["name"]}</TDWeekMealText>
-        ) : (
-          <TDWeekMealText style={{ fontSize: "1rem" }}>+</TDWeekMealText>
-        )}
-      </TDWeekMealContainer>
-    </>
-  );
-};
-
-const TRWeek = styled.tr``;
-const TDWeekMealContainer = styled.td`
-  border: 1px solid #969696;
-  padding: 10px;
-  margin: 0px;
-  transition: opacity 0.5s;
-
-  &:hover {
-    transition: opacity 0.5s;
-    background-color: #e4e3e3;
-  }
-`;
-const TDWeekMealText = styled.p`
-  color: #000000;
-`;
-const TDWeekMealDay = styled(TDWeekMealContainer)`
-  background-color: #c8161d;
-  color: #ffffff;
-  border-radius: 5px;
-  font-weight: 700;
-`;
-const TDWeelMealType = styled(TDWeekMealDay)``;
-const WeekMealButton = styled.button`
-  width: 100%;
-  height: 100%;
-  font-size: 2rem;
-  font-weight: 600;
-  border: 1px solid #ffffff;
-  background-color: #989898;
-  border-radius: 10px;
-  color: #ffffff;
-`;
-const WeekMealDate = styled.td`
-  background-color: #c8161d;
-  width: 100%;
-  height: 100%;
-  font-size: 2rem;
-  padding: 1rem;
-  border-radius: 15px;
-  opacity: 1;
-  transition: opacity 0.5s;
-  &:hover {
-    opacity: 0.6;
-  }
-`;
-const WeekGridDiv = styled.table`
-  /* width: 100%; */
-  border-radius: 15px;
-  padding: 1rem;
-  border-collapse: separate;
-  background-color: #ffffff;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  background: linear-gradient(45deg, #ffffff, #ececec);
-`;

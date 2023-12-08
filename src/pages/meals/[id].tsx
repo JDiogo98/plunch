@@ -13,6 +13,8 @@ const MealsRecipeContainer = styled.div`
   display: flex;
   flex-direction: column;
   padding: 1.3rem;
+  max-width: 700px;
+  margin: auto;
   height: 100%;
   width: 100%;
   gap: 0.2rem;
@@ -22,7 +24,6 @@ const MealsRecipeImage = styled.img`
   width: 80%;
   max-height: 45%;
   object-fit: cover;
-  margin-top: 3rem;
   border-radius: 25px;
   place-self: center;
 `;
@@ -36,7 +37,7 @@ const MealsRecipeTitle = styled.p`
 
 const MealIngredients = styled.div`
   /* width: 100%; */
-  padding: 1rem;
+  padding-top: 2rem;
   background-color: #dcdcdc;
   border-radius: 15px;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;

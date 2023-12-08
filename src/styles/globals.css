@@ -18,7 +18,8 @@ body {
   font-family: "Geomanist", sans-serif;
   width: 100%;
   padding: 0;
-  display: grid;
+  margin-bottom: 100px;
+  /* display: grid; */
   place-items: center;
   text-align: center;
   background: linear-gradient(

@@ -1,4 +1,3 @@
-export type StringOrNull = string | null;
 
 export interface Meal {
   idMeal: StringOrNull;
@@ -119,3 +118,60 @@ export const initialState: MealsList = {
     },
   ],
 };
+
+export type StringOrNull = string | null;
+// type Meal = {
+//   idMeal: string | null;
+//   strMeal: StringOrNull;
+//   strDrinkAlternate: StringOrNull;
+//   strCategory: StringOrNull;
+//   strArea: StringOrNull;
+//   strInstructions: StringOrNull;
+//   strMealThumb: StringOrNull;
+//   strTags: StringOrNull;
+//   strYoutube: StringOrNull;
+//   strIngredient1: StringOrNull;
+//   strIngredient2: StringOrNull;
+//   strIngredient3: StringOrNull;
+//   strIngredient4: StringOrNull;
+//   strIngredient5: StringOrNull;
+//   strIngredient6: StringOrNull;
+//   strIngredient7: StringOrNull;
+//   strIngredient8: StringOrNull;
+//   strIngredient9: StringOrNull;
+//   strIngredient10: StringOrNull;
+//   strIngredient11: StringOrNull;
+//   strIngredient12: StringOrNull;
+//   strIngredient13: StringOrNull;
+//   strIngredient14: StringOrNull;
+//   strIngredient15: StringOrNull;
+//   strIngredient16: StringOrNull;
+//   strIngredient17: StringOrNull;
+//   strIngredient18: StringOrNull;
+//   strIngredient19: StringOrNull;
+//   strIngredient20: StringOrNull;
+//   strMeasure1: StringOrNull;
+//   strMeasure2: StringOrNull;
+//   strMeasure3: StringOrNull;
+//   strMeasure4: StringOrNull;
+//   strMeasure5: StringOrNull;
+//   strMeasure6: StringOrNull;
+//   strMeasure7: StringOrNull;
+//   strMeasure8: StringOrNull;
+//   strMeasure9: StringOrNull;
+//   strMeasure10: StringOrNull;
+//   strMeasure11: StringOrNull;
+//   strMeasure12: StringOrNull;
+//   strMeasure13: StringOrNull;
+//   strMeasure14: StringOrNull;
+//   strMeasure15: StringOrNull;
+//   strMeasure16: StringOrNull;
+//   strMeasure17: StringOrNull;
+//   strMeasure18: StringOrNull;
+//   strMeasure19: StringOrNull;
+//   strMeasure20: StringOrNull;
+//   strSource: StringOrNull;
+//   strImageSource: StringOrNull;
+//   strCreativeCommonsConfirmed: StringOrNull;
+//   dateModified: StringOrNull;
+// };

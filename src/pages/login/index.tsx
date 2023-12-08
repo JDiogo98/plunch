@@ -1,5 +1,8 @@
 import axios from "axios";
 import { setCookie } from "cookies-next";
+import { set } from "date-fns";
+import { cookies } from "next/headers";
+import { Router, useRouter } from "next/router";
 import React, { useState } from "react";
 import styled from "styled-components";
 
@@ -7,7 +10,10 @@ export const LogInContainer = styled.div`
   width: 100%;
   display: grid;
   padding: 1rem;
-  grid-template-rows: 20px 150px 3fr 0.6fr 1fr;
+  max-width: 500px;
+  place-items: center;
+  margin: auto;
+  grid-template-rows: 20px 150px 3fr 0.2fr 0.2fr 1fr;
 `;
 
 export type requestType = {
@@ -61,6 +67,7 @@ export const AuthButton = styled.button`
   background-color: #c8161d;
   grid-row: 4/5;
   place-self: center;
+  place-items: center;
   border: none;
   border-radius: 15px;
   &:hover {
@@ -90,10 +97,28 @@ export const BlackLText = styled.h1`
   margin: 0;
 `;
 
+export const Loader = styled.div`
+  animation: is-rotating 1s infinite;
+  border: 10px solid #ffffff;
+  border-radius: 50%;
+  margin: auto;
+  margin-top: 20px;
+  border-top-color: #c8161d;
+  height: 50px;
+  width: 50px;
+  @keyframes is-rotating {
+    to {
+      transform: rotate(1turn);
+    }
+  }
+`;
+
 export default function LogInPage() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [request, setRequest] = useState<requestType>(defaultRequest);
+
+  const router = useRouter();
 
   const onLogInSubmit = async (e: Event) => {
     try {
@@ -109,6 +134,18 @@ export default function LogInPage() {
         "https://x8ki-letl-twmt.n7.xano.io/api:pXhZqBYW/auth/login",
         { email, password }
       );
+      setRequest({
+        error: false,
+        errorMessage: "",
+        isLoading: false,
+        submitted: true,
+      });
+      setCookie("authToken", response.data.authToken);
+      setTimeout(() => {
+        router.push("/dashboard");
+      }, 1000);
+
+      // }
     } catch (error: any) {
       console.log("Error at login");
       setRequest({
@@ -119,10 +156,6 @@ export default function LogInPage() {
       });
     }
   };
-
-  const allCookies = cookies().getAll();
-
-  console.log(allCookies);
 
   return (
     <>
@@ -149,13 +182,13 @@ export default function LogInPage() {
           >
             E-mail:
           </BlackMText>
-          <AuthInput></AuthInput>
+          <AuthInput onChange={(e) => setEmail(e.target.value)}></AuthInput>
           <BlackMText
             style={{ margin: "2rem 1rem 0rem 0", textAlign: "start" }}
           >
             Password:
           </BlackMText>
-          <AuthInput></AuthInput>
+          <AuthInput onChange={(e) => setPassword(e.target.value)}></AuthInput>
           <div
             style={{
               display: "flex",
@@ -170,13 +203,7 @@ export default function LogInPage() {
             </BlackXSText>
           </div>
         </AuthForm>
-        <AuthButton
-          onClick={() => {
-            setCookie("token", "teste");
-          }}
-        >
-          LOG IN
-        </AuthButton>
+        <AuthButton onClick={onLogInSubmit}>LOG IN</AuthButton>
         <BlackSText
           style={{
             gridRow: "5/6",

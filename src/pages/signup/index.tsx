@@ -10,17 +10,17 @@ import {
   BlackXLText,
   BlackXSText,
   GreyMText,
+  Loader,
   LogInContainer,
   defaultRequest,
   requestType,
 } from "../login";
 import axios from "axios";
+import { error } from "console";
 
 const SignUpContainer = styled(LogInContainer)`
   max-width: 500px;
 `;
-
-
 
 
 
@@ -45,6 +45,12 @@ export default function LogInPage() {
         "https://x8ki-letl-twmt.n7.xano.io/api:pXhZqBYW/auth/signup",
         { firstName, lastName, email, password }
       );
+      setRequest({
+        error: false,
+        errorMessage: "",
+        isLoading: false,
+        submitted: true,
+      });
     } catch (error: any) {
       console.log("Error at submit register: ", error);
       setRequest({
@@ -129,7 +135,12 @@ export default function LogInPage() {
               <span style={{ color: "#C8161D" }}>Login</span>
             </BlackXSText>
           </div>
-          <AuthButton>SIGN UP</AuthButton>
+          <AuthButton>Sign Up</AuthButton>
+          {request.isLoading ? <Loader /> : <div></div>}
+          {request.error && <BlackSText>{request.errorMessage}</BlackSText>}
+          {!request.error && request.submitted && (
+            <BlackSText>Account Created!!</BlackSText>
+          )}
         </AuthForm>
         <BlackSText
           style={{
