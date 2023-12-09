@@ -28,29 +28,33 @@ const NavBarLinks = styled(Link)`
 `;
 
 const NavBar = () => {
-  const { navOption, setNavOption } = useGlobalContext();
+  const { navOption, setNavOption, isAuth } = useGlobalContext();
 
   return (
-    <NavContainer>
-      <NavBarLinks href="/dashboard" onClick={() => setNavOption("home")}>
-        <HomeSvg
-          color={navOption == "home" ? "#c8161d" : "#757575"}
-          size={"3rem"}
-        ></HomeSvg>
-      </NavBarLinks>
-      <NavBarLinks href="/meals" onClick={() => setNavOption("search")}>
-        <SearchSvg
-          color={navOption == "search" ? "#c8161d" : "#757575"}
-          size={"2.4rem"}
-        ></SearchSvg>
-      </NavBarLinks>
-      <NavBarLinks href="/login" onClick={() => setNavOption("account")}>
-        <AccountSvg
-          size={"2rem"}
-          color={navOption == "account" ? "#c8161d" : "#757575"}
-        ></AccountSvg>
-      </NavBarLinks>
-    </NavContainer>
+    <>
+      {navOption !== "landing" && isAuth ?  (
+        <NavContainer>
+          <NavBarLinks href="/dashboard" onClick={() => setNavOption("home")}>
+            <HomeSvg
+              color={navOption == "home" ? "#c8161d" : "#757575"}
+              size={"3rem"}
+            ></HomeSvg>
+          </NavBarLinks>
+          <NavBarLinks href="/meals" onClick={() => setNavOption("search")}>
+            <SearchSvg
+              color={navOption == "search" ? "#c8161d" : "#757575"}
+              size={"2.4rem"}
+            ></SearchSvg>
+          </NavBarLinks>
+          <NavBarLinks href="/login" onClick={() => setNavOption("account")}>
+            <AccountSvg
+              size={"2rem"}
+              color={navOption == "account" ? "#c8161d" : "#757575"}
+            ></AccountSvg>
+          </NavBarLinks>
+        </NavContainer>
+      ) : null}
+    </>
   );
 };
 

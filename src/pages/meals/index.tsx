@@ -1,17 +1,15 @@
-"use client";
-
-import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 import { BackSvg } from "../../../public/landingImgs/back";
-import { AuthButton } from "../login";
+import { AuthButton, Loader } from "../login";
 import { SearchSvg } from "../../../public/landingImgs/searchSvg";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import {
   GlobalContextProvider,
   useGlobalContext,
 } from "../../../Context/store";
 import { MealsResults } from "@/components/mealsResults";
 import { NoResultsMessage } from "@/components/noResults";
+import { set } from "date-fns";
 
 const SearchPageContainer = styled.div`
   display: flex;
@@ -84,34 +82,44 @@ const SearchButton = styled.button`
 const SearchMealsPage = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const { meals, getSearchMeals, setNavOption } = useGlobalContext();
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  setNavOption("search");
-
-  const handleSearch = (search: string, e: MouseEvent | FormEvent) => {
+  const handleSearch = async (e: MouseEvent | FormEvent) => {
     e.preventDefault();
-    getSearchMeals(searchTerm);
+    setIsLoading(true);
+    await getSearchMeals(searchTerm);
+    setIsLoading(false);
   };
 
-  if (meals["meals"] == null) {
-    getSearchMeals("a");
-  }
+  useEffect(() => {
+    const fetchData = async () => {
+      setIsLoading(true);
+      setNavOption("search");
+      if (meals["meals"] == null) {
+        try {
+          await getSearchMeals("a");
+        } catch (error) {
+          console.error("Error fetching search meals:", error);
+        }
+      }
+      setIsLoading(false);
+    };
+    fetchData();
+  }, []);
 
   return (
     <>
       <SearchPageContainer>
         <BackSvg></BackSvg>
-        <form onSubmit={(e) => handleSearch(searchTerm, e)}>
+        <form onSubmit={(e) => handleSearch(e)}>
           <SerchInputContainer>
             <SearchPageInput
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              onChange={(e) => setSearchTerm(e.target.value.trim())}
               placeholder="Search Meal"
               type="text"
             ></SearchPageInput>
-            <SearchButton
-              type="submit"
-              onClick={(e) => handleSearch(searchTerm, e)}
-            >
+            <SearchButton type="submit" onClick={(e) => handleSearch(e)}>
               <SearchSvg></SearchSvg>
             </SearchButton>
           </SerchInputContainer>
@@ -120,10 +128,14 @@ const SearchMealsPage = () => {
           Unispired
         </UnispiredButton>
         <ResultsContainer>
-          {meals["meals"] !== null ? (
-            Object.values(meals["meals"]).map((v) => {
-              return <MealsResults key={v["idMeal"]} meal={v}></MealsResults>;
-            })
+          {isLoading ? (
+            <Loader />
+          ) : meals["meals"] !== null ? (
+            <>
+              {Object.values(meals["meals"]).map((v) => (
+                <MealsResults key={v["idMeal"]} meal={v}></MealsResults>
+              ))}
+            </>
           ) : (
             <NoResultsMessage />
           )}

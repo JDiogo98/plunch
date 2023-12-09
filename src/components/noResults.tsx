@@ -12,9 +12,12 @@ const Message = styled.p`
 `;
 
 export const NoResultsMessage = () => {
+  
+
   return (
     <>
       <Container>
+        
         <Message>No results</Message>
         <SadSvg></SadSvg>
       </Container>

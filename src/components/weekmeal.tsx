@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import dayjs from "dayjs";
@@ -6,7 +8,7 @@ import isoWeekInYear from "dayjs/plugin/isoWeeksInYear";
 import isoLeapInYear from "dayjs/plugin/isLeapYear";
 import { TDWeekMeal, TDWeekMealContainer } from "./mealAtWeekPlaneer";
 import { EmptyWeek } from "../../test";
-import { log } from "console";
+import { useGlobalContext } from "../../Context/store";
 
 export const TDWeekMealDay = styled(TDWeekMealContainer)`
   background-color: #c8161d;
@@ -50,7 +52,7 @@ export const WeekGridDiv = styled.table`
   background: linear-gradient(45deg, #ffffff, #dcdcdc);
 `;
 
-export const TRWeek = styled.tr``;
+// export const tr = styled.tr``;
 
 dayjs.extend(isoWeek);
 dayjs.extend(isoWeekInYear);
@@ -92,19 +94,27 @@ type PlansStructure = {
   w_7: Plan;
 };
 
-type ThisType = {
-  plans: PlansStructure;
-};
 
 export default function WeekMeal({ userData }: any) {
+  const { setUpdatePlans } = useGlobalContext();
+
   const [date, setDate] = useState(dayjs());
   const [weekYear, setWeekYear] = useState(
     date.isoWeek() + "_" + date.format("YY")
   );
+
+  const [sessionWeeks, setSessionWeeks] = useState(
+    userData["plans_of_user"]["plans"]
+  );
+
+  if (sessionWeeks == null || !Object.keys(sessionWeeks).includes(weekYear)) {
+    setSessionWeeks({ ...sessionWeeks, [weekYear]: EmptyWeek });
+  }
+
+  const user_id = userData["id"];
+  const user_list_id = userData["plans_of_user"]["id"];
   const [startOfTheWeek, setStartOfTheWeek] = useState(date.startOf("week"));
   const [endOfTheWeek, setEndOfTheWeek] = useState(date.endOf("week"));
-
-  const [sessionWeeks, setSessionWeeks] = useState(userData["plans_of_user"]["plans"]);
 
   function add1Week() {
     setDate(date.add(1, "week"));
@@ -114,7 +124,6 @@ export default function WeekMeal({ userData }: any) {
     setDate(date.subtract(1, "week"));
     refreshDates(date.subtract(1, "week"));
   }
-
   function refreshDates(date: any) {
     setStartOfTheWeek(date.startOf("week"));
     setEndOfTheWeek(date.endOf("week"));
@@ -127,151 +136,161 @@ export default function WeekMeal({ userData }: any) {
     }
   }
 
+  useEffect(() => {
+    setUpdatePlans(user_id, user_list_id, sessionWeeks);
+  }, [sessionWeeks]);
+
   return (
     <>
-      {userData && (
+      {sessionWeeks && (
         <WeekGridDiv>
-          <TRWeek>
-            <WeekMealDate colSpan={4}>{`${startOfTheWeek.format(
-              "DD-MM"
-            )} to ${endOfTheWeek.format("DD-MM")}`}</WeekMealDate>
-          </TRWeek>
-          <TRWeek>
-            <td></td>
-            <td>
-              <WeekMealButton
-                onClick={() => {
-                  sub1Week();
-                }}
-              >
-                {"<"}
-              </WeekMealButton>
-            </td>
+          <thead>
+            <tr>
+              <WeekMealDate colSpan={4}>{`${startOfTheWeek.format(
+                "DD-MM"
+              )} to ${endOfTheWeek.format("DD-MM")}`}</WeekMealDate>
+            </tr>
+            <tr>
+              <td></td>
+              <td>
+                <WeekMealButton
+                  onClick={() => {
+                    sub1Week();
+                  }}
+                >
+                  {"<"}
+                </WeekMealButton>
+              </td>
 
-            <td></td>
-            <td>
-              <WeekMealButton onClick={() => add1Week()}>{">"}</WeekMealButton>
-            </td>
-          </TRWeek>
-          <TRWeek>
-            <td></td>
-            <TDWeelMealType>Breakfast</TDWeelMealType>
-            <TDWeelMealType>Lunch</TDWeelMealType>
-            <TDWeelMealType>Dinner</TDWeelMealType>
-          </TRWeek>
+              <td></td>
+              <td>
+                <WeekMealButton onClick={() => add1Week()}>
+                  {">"}
+                </WeekMealButton>
+              </td>
+            </tr>
 
-          <TRWeek>
-            <TDWeekMealDay>
-              Sunday
-              <br></br>
-              {startOfTheWeek.format("(DD-MM)")}
-            </TDWeekMealDay>
-            <TDWeekMeal
-              meal={sessionWeeks[weekYear]["w_1"]["brk"]}
-            ></TDWeekMeal>
-            <TDWeekMeal
-              meal={sessionWeeks[weekYear]["w_1"]["lun"]}
-            ></TDWeekMeal>
-            <TDWeekMeal
-              meal={sessionWeeks[weekYear]["w_1"]["din"]}
-            ></TDWeekMeal>
-          </TRWeek>
-          <TRWeek>
-            <TDWeekMealDay>
-              Monday
-              <br></br>
-              {startOfTheWeek.add(1, "day").format("(DD-MM)")}
-            </TDWeekMealDay>
-            <TDWeekMeal
-              meal={sessionWeeks[weekYear]["w_2"]["brk"]}
-            ></TDWeekMeal>
-            <TDWeekMeal
-              meal={sessionWeeks[weekYear]["w_2"]["lun"]}
-            ></TDWeekMeal>
-            <TDWeekMeal
-              meal={sessionWeeks[weekYear]["w_2"]["din"]}
-            ></TDWeekMeal>
-          </TRWeek>
-          <TRWeek>
-            <TDWeekMealDay>
-              Tuesday
-              <br></br>
-              {startOfTheWeek.add(2, "day").format("(DD-MM)")}
-            </TDWeekMealDay>
-            <TDWeekMeal
-              meal={sessionWeeks[weekYear]["w_3"]["brk"]}
-            ></TDWeekMeal>
-            <TDWeekMeal
-              meal={sessionWeeks[weekYear]["w_3"]["lun"]}
-            ></TDWeekMeal>
-            <TDWeekMeal
-              meal={sessionWeeks[weekYear]["w_3"]["din"]}
-            ></TDWeekMeal>
-          </TRWeek>
-          <TRWeek>
-            <TDWeekMealDay>
-              Wendsday
-              <br></br>
-              {startOfTheWeek.add(3, "day").format("(DD-MM)")}
-            </TDWeekMealDay>
-            <TDWeekMeal
-              meal={sessionWeeks[weekYear]["w_4"]["brk"]}
-            ></TDWeekMeal>
-            <TDWeekMeal
-              meal={sessionWeeks[weekYear]["w_4"]["lun"]}
-            ></TDWeekMeal>
-            <TDWeekMeal
-              meal={sessionWeeks[weekYear]["w_4"]["din"]}
-            ></TDWeekMeal>
-          </TRWeek>
-          <TRWeek>
-            <TDWeekMealDay>
-              Thursday
-              <br></br>
-              {startOfTheWeek.add(4, "day").format("(DD-MM)")}
-            </TDWeekMealDay>
-            <TDWeekMeal
-              meal={sessionWeeks[weekYear]["w_5"]["brk"]}
-            ></TDWeekMeal>
-            <TDWeekMeal
-              meal={sessionWeeks[weekYear]["w_5"]["lun"]}
-            ></TDWeekMeal>
-            <TDWeekMeal
-              meal={sessionWeeks[weekYear]["w_5"]["din"]}
-            ></TDWeekMeal>
-          </TRWeek>
-          <TRWeek>
-            <TDWeekMealDay>
-              Friday
-              <br></br>
-              {startOfTheWeek.add(5, "day").format("(DD-MM)")}
-            </TDWeekMealDay>
-            <TDWeekMeal
-              meal={sessionWeeks[weekYear]["w_6"]["brk"]}
-            ></TDWeekMeal>
-            <TDWeekMeal
-              meal={sessionWeeks[weekYear]["w_6"]["lun"]}
-            ></TDWeekMeal>
-            <TDWeekMeal
-              meal={sessionWeeks[weekYear]["w_6"]["din"]}
-            ></TDWeekMeal>
-          </TRWeek>
-          <TRWeek>
-            <TDWeekMealDay>
-              Saturday
-              <br></br>
-              {startOfTheWeek.add(6, "day").format("(DD-MM)")}
-            </TDWeekMealDay>
-            <TDWeekMeal
-              meal={sessionWeeks[weekYear]["w_7"]["brk"]}
-            ></TDWeekMeal>
-            <TDWeekMeal
-              meal={sessionWeeks[weekYear]["w_7"]["lun"]}
-            ></TDWeekMeal>
-            <TDWeekMeal
-              meal={sessionWeeks[weekYear]["w_7"]["din"]}
-            ></TDWeekMeal>
-          </TRWeek>
+            <tr>
+              <td></td>
+              <TDWeelMealType>Breakfast</TDWeelMealType>
+              <TDWeelMealType>Lunch</TDWeelMealType>
+              <TDWeelMealType>Dinner</TDWeelMealType>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <TDWeekMealDay>
+                Sunday
+                <br></br>
+                {startOfTheWeek.format("(DD-MM)")}
+              </TDWeekMealDay>
+              <TDWeekMeal
+                meal={sessionWeeks[weekYear]["w_1"]["brk"]}
+              ></TDWeekMeal>
+              <TDWeekMeal
+                meal={sessionWeeks[weekYear]["w_1"]["lun"]}
+              ></TDWeekMeal>
+              <TDWeekMeal
+                meal={sessionWeeks[weekYear]["w_1"]["din"]}
+              ></TDWeekMeal>
+            </tr>
+            <tr>
+              <TDWeekMealDay>
+                Monday
+                <br></br>
+                {startOfTheWeek.add(1, "day").format("(DD-MM)")}
+              </TDWeekMealDay>
+              <TDWeekMeal
+                meal={sessionWeeks[weekYear]["w_2"]["brk"]}
+              ></TDWeekMeal>
+              <TDWeekMeal
+                meal={sessionWeeks[weekYear]["w_2"]["lun"]}
+              ></TDWeekMeal>
+              <TDWeekMeal
+                meal={sessionWeeks[weekYear]["w_2"]["din"]}
+              ></TDWeekMeal>
+            </tr>
+            <tr>
+              <TDWeekMealDay>
+                Tuesday
+                <br></br>
+                {startOfTheWeek.add(2, "day").format("(DD-MM)")}
+              </TDWeekMealDay>
+              <TDWeekMeal
+                meal={sessionWeeks[weekYear]["w_3"]["brk"]}
+              ></TDWeekMeal>
+              <TDWeekMeal
+                meal={sessionWeeks[weekYear]["w_3"]["lun"]}
+              ></TDWeekMeal>
+              <TDWeekMeal
+                meal={sessionWeeks[weekYear]["w_3"]["din"]}
+              ></TDWeekMeal>
+            </tr>
+            <tr>
+              <TDWeekMealDay>
+                Wendsday
+                <br></br>
+                {startOfTheWeek.add(3, "day").format("(DD-MM)")}
+              </TDWeekMealDay>
+              <TDWeekMeal
+                meal={sessionWeeks[weekYear]["w_4"]["brk"]}
+              ></TDWeekMeal>
+              <TDWeekMeal
+                meal={sessionWeeks[weekYear]["w_4"]["lun"]}
+              ></TDWeekMeal>
+              <TDWeekMeal
+                meal={sessionWeeks[weekYear]["w_4"]["din"]}
+              ></TDWeekMeal>
+            </tr>
+            <tr>
+              <TDWeekMealDay>
+                Thursday
+                <br></br>
+                {startOfTheWeek.add(4, "day").format("(DD-MM)")}
+              </TDWeekMealDay>
+              <TDWeekMeal
+                meal={sessionWeeks[weekYear]["w_5"]["brk"]}
+              ></TDWeekMeal>
+              <TDWeekMeal
+                meal={sessionWeeks[weekYear]["w_5"]["lun"]}
+              ></TDWeekMeal>
+              <TDWeekMeal
+                meal={sessionWeeks[weekYear]["w_5"]["din"]}
+              ></TDWeekMeal>
+            </tr>
+            <tr>
+              <TDWeekMealDay>
+                Friday
+                <br></br>
+                {startOfTheWeek.add(5, "day").format("(DD-MM)")}
+              </TDWeekMealDay>
+              <TDWeekMeal
+                meal={sessionWeeks[weekYear]["w_6"]["brk"]}
+              ></TDWeekMeal>
+              <TDWeekMeal
+                meal={sessionWeeks[weekYear]["w_6"]["lun"]}
+              ></TDWeekMeal>
+              <TDWeekMeal
+                meal={sessionWeeks[weekYear]["w_6"]["din"]}
+              ></TDWeekMeal>
+            </tr>
+            <tr>
+              <TDWeekMealDay>
+                Saturday
+                <br></br>
+                {startOfTheWeek.add(6, "day").format("(DD-MM)")}
+              </TDWeekMealDay>
+              <TDWeekMeal
+                meal={sessionWeeks[weekYear]["w_7"]["brk"]}
+              ></TDWeekMeal>
+              <TDWeekMeal
+                meal={sessionWeeks[weekYear]["w_7"]["lun"]}
+              ></TDWeekMeal>
+              <TDWeekMeal
+                meal={sessionWeeks[weekYear]["w_7"]["din"]}
+              ></TDWeekMeal>
+            </tr>
+          </tbody>
         </WeekGridDiv>
       )}
     </>

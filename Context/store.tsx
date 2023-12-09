@@ -9,7 +9,7 @@ import {
   useState,
 } from "react";
 import { getCookie } from "cookies-next";
-import { fetchUserData } from "./contextAuthFunctions";
+import { fetchUserData, updatePlans } from "./contextAuthFunctions";
 import { Meal, MealsList } from "./SearchTypes";
 import { searchMeals } from "./searchMeals";
 
@@ -25,6 +25,12 @@ const MealListNullHolder = {
   meals: null,
 };
 
+interface isAuthInterface {
+  isAuth: true | false;
+  firstName: string | undefined;
+  lastName: string | undefined;
+}
+
 interface ContextProps {
   meals: MealList | MealListNull;
   setMeals: Dispatch<SetStateAction<MealList>>;
@@ -34,17 +40,23 @@ interface ContextProps {
   getSearchMeals: any;
   navOption: string;
   setNavOption: (value: string) => void;
+  setUpdatePlans: (user_id: string, list_id: string, plans: any) => void;
+  isAuth: isAuthInterface;
+  setIsAuth: React.Dispatch<React.SetStateAction<isAuthInterface>>;
 }
 
 const GlobalContext = createContext<ContextProps>({
   meals: MealListNullHolder,
-  setMeals: (): MealList[] => [],
+  setMeals: () => {},
   searchMeals: (term: string) => {},
   userData: undefined,
   getUserData: undefined,
   getSearchMeals: undefined,
   navOption: "home",
-  setNavOption: (value: string) => "home",
+  setNavOption: () => {},
+  setUpdatePlans: (user_id: string, list_id: string, plans: any) => {},
+  isAuth: { firstName: undefined, lastName: undefined, isAuth: false },
+  setIsAuth: ()=>{}
 });
 
 export const GlobalContextProvider = ({ children }: any) => {
@@ -53,6 +65,11 @@ export const GlobalContextProvider = ({ children }: any) => {
   );
   const [userData, setUserData] = useState<any>(undefined);
   const [navOption, setNavOption] = useState<string>("home");
+  const [isAuth, setIsAuth] = useState<isAuthInterface>({
+    firstName: undefined,
+    lastName: undefined,
+    isAuth: false,
+  });
 
   async function getSearchMeals(term: string): Promise<void> {
     try {
@@ -62,10 +79,30 @@ export const GlobalContextProvider = ({ children }: any) => {
       console.error("Erro ao buscar refeições:", error);
     }
   }
-
   async function getUserData() {
-    const userDataResult = await fetchUserData();
-    setUserData(userDataResult);
+    try {
+      const authToken = getCookie("authToken");
+      const userDataResult = await fetchUserData(authToken);
+      console.log(userDataResult);
+      setIsAuth({
+        firstName: userDataResult["first_name"],
+        lastName: userDataResult["last_name"],
+        isAuth: true,
+      });
+      setUserData(userDataResult);
+    } catch (error) {
+      setIsAuth({ firstName: undefined, lastName: undefined, isAuth: false });
+      return {
+        redirect: {
+          destination: "/login",
+          permanent: false,
+        },
+      };
+    }
+  }
+  async function setUpdatePlans(user_id: string, list_id: string, plans: any) {
+    updatePlans(user_id, list_id, plans);
+    return;
   }
 
   return (
@@ -77,6 +114,9 @@ export const GlobalContextProvider = ({ children }: any) => {
         getUserData,
         navOption,
         setNavOption,
+        setUpdatePlans,
+        isAuth,
+        setIsAuth,
       }}
     >
       {children}
