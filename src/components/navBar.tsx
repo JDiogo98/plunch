@@ -49,7 +49,7 @@ const NavBarLinks = styled(Link)`
   }
 `;
 
-export const NavBar = ({ children }) => {
+export const NavBar = ({ children }: any) => {
   const { navOption, setNavOption, isAuth, setAddMealProcess, setIsAuth } =
     useGlobalContext();
 
