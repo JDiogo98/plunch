@@ -13,8 +13,8 @@ export const LogOutSvg = () => {
           boxShadow: "0px 10px 10px rgba(0, 0, 0, 0.15)",
           borderRadius: "10px",
         }}
-        onMouseEnter={(e) => (e.target.style.opacity = "0.4")}
-        onMouseLeave={(e) => (e.target.style.opacity = "1")}
+        onMouseEnter={(e:any) => (e.target.style.opacity = "0.4")}
+        onMouseLeave={(e:any) => (e.target.style.opacity = "1")}
       >
         <g id="Interface / Log_Out">
           <path
