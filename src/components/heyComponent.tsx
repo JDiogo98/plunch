@@ -26,7 +26,7 @@ export const HeyComponent = () => {
     <>
       <HeyComponentContainer>
         <BlackLText>Hey!</BlackLText>
-        <GreyMText>Let's cook</GreyMText>
+        <GreyMText>Let`&apos;`'s cook</GreyMText>
       </HeyComponentContainer>
     </>
   );
