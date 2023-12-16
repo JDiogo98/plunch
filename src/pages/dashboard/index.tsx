@@ -14,7 +14,7 @@ import { useRouter } from "next/router";
 const GridContainer = styled.div`
   width: 100%;
   margin: auto;
-  margin-top: 30%;
+  margin-top: 100px;
 `;
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
@@ -22,15 +22,14 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const parsedCookies = cookie.parse(cookiesToken);
   const authToken = parsedCookies.authToken;
 
-  // Check if authToken is not present, then redirect to the login page
-  // if (!authToken) {
-  //   return {
-  //     redirect: {
-  //       permanent: false,
-  //       destination: "/login",
-  //     },
-  //   };
-  // }
+  if (!authToken) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: "/login",
+      },
+    };
+  }
 
   let userServerPropsResponse;
 

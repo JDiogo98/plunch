@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import dayjs from "dayjs";
@@ -8,6 +7,8 @@ import isoLeapInYear from "dayjs/plugin/isLeapYear";
 import { TDWeekMeal, TDWeekMealContainer } from "./mealAtWeekPlaneer";
 import { EmptyWeek } from "../../test";
 import { useGlobalContext } from "../../Context/store";
+import { BackSvg } from "../../public/landingImgs/back";
+import { NavBtnSvg } from "../../public/landingImgs/navBtns";
 
 export const TDWeekMealDay = styled(TDWeekMealContainer)`
   background-color: #c8161d;
@@ -41,16 +42,53 @@ export const WeekMealDate = styled.td`
   }
 `;
 export const WeekGridDiv = styled.table`
-  width: 85%;
+  width: 80%;
   border-radius: 15px;
-  padding: 1rem;
+  padding: 15px;
   margin: auto;
-  margin-top: 20%;
-  padding-top: 2rem;
+  margin-bottom: 100px;
   border-collapse: separate;
   background-color: #ffffff;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   background: #ffffff;
+`;
+
+const DateControlContainer = styled.div`
+  display: grid;
+  top: 0;
+  /* position: relative; */
+  top: 100px;
+  width: 85%;
+  margin: auto;
+  align-items: center;
+  padding: 15px;
+  grid-template-areas: "backBtn display frontBtn";
+`;
+
+const DateDisplay = styled.div`
+  color: #ffffff;
+  background-color: #c8161d;
+  margin: auto;
+  font-size: 14px;
+  padding: 10px;
+  border-radius: 15px;
+  box-shadow: rgba(0, 0, 0, 0.225) 0px 5px 15px;
+  grid-area: display;
+
+  @media (min-width: 500px) {
+    font-size: 24px;
+    padding: 15px;
+  }
+`;
+
+const DisplayControl = styled.div`
+  background-color: #ffffff;
+  color: #c8161d;
+  border-radius: 15px;
+  font-size: 18px;
+  font-weight: 600;
+  /* box-shadow: rgba(0, 0, 0, 0.225) 0px 5px 15px; */
+  grid-area: btn;
 `;
 
 dayjs.extend(isoWeek);
@@ -83,16 +121,6 @@ type Plan = {
     | undefined;
 };
 
-type PlansStructure = {
-  w_1: Plan;
-  w_2: Plan;
-  w_3: Plan;
-  w_4: Plan;
-  w_5: Plan;
-  w_6: Plan;
-  w_7: Plan;
-};
-
 export default function WeekMeal({ userData }: any) {
   const { setUpdatePlans, sessionWeeks, setSessionWeeks } = useGlobalContext();
   const [date, setDate] = useState(dayjs());
@@ -105,9 +133,6 @@ export default function WeekMeal({ userData }: any) {
   if (sessionWeeks == null || !Object.keys(sessionWeeks).includes(weekYear)) {
     setSessionWeeks({ ...sessionWeeks, [weekYear]: EmptyWeek });
   }
-
-  const user_id = userData["id"];
-  const user_list_id = userData["plans_of_user"]["id"];
 
   const [startOfTheWeek, setStartOfTheWeek] = useState(date.startOf("week"));
   const [endOfTheWeek, setEndOfTheWeek] = useState(date.endOf("week"));
@@ -132,267 +157,260 @@ export default function WeekMeal({ userData }: any) {
     }
   }
 
-  // useEffect(() => {
-  //   setUpdatePlans(user_id, user_list_id, sessionWeeks);
-  // }, [sessionWeeks]);
-
   return (
     <>
       {sessionWeeks && (
-        <WeekGridDiv>
-          <thead>
-            <tr>
-              <WeekMealDate colSpan={4}>{`${startOfTheWeek.format(
-                "DD/MM"
-              )} to ${endOfTheWeek.format("DD/MM")}`}</WeekMealDate>
-            </tr>
-            <tr>
-              <td></td>
-              <td>
-                <WeekMealButton
-                  onClick={() => {
-                    sub1Week();
-                  }}
-                >
-                  {"<"}
-                </WeekMealButton>
-              </td>
+        <>
+          <DateControlContainer>
+            <DateDisplay>{`${startOfTheWeek.format(
+              "DD/MM"
+            )} to ${endOfTheWeek.format("DD/MM")}`}</DateDisplay>
+            <DisplayControl
+              onClick={() => {
+                sub1Week();
+              }}
+              style={{ gridArea: "backBtn" }}
+            >
+              <NavBtnSvg />
+            </DisplayControl>
+            <DisplayControl
+              onClick={() => add1Week()}
+              style={{ gridArea: "frontBtn", transform: "rotate(180deg)" }}
+            >
+              <NavBtnSvg />
+            </DisplayControl>
+          </DateControlContainer>
 
-              <td></td>
-              <td>
-                <WeekMealButton onClick={() => add1Week()}>
-                  {">"}
-                </WeekMealButton>
-              </td>
-            </tr>
-
-            <tr>
-              <td></td>
-              <TDWeelMealType>Breakfast</TDWeelMealType>
-              <TDWeelMealType>Lunch</TDWeelMealType>
-              <TDWeelMealType>Dinner</TDWeelMealType>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <TDWeekMealDay>
-                Sunday
-                <br></br>
-                {startOfTheWeek.format("(DD-MM)")}
-              </TDWeekMealDay>
-              <TDWeekMeal
-                day="w_1"
-                week={weekYear}
-                meal="brk"
-                selectedMeal={selectedMeal}
-                setSelectedMeal={setSelectedMeal}
-                m={sessionWeeks[weekYear]["w_1"]["brk"]}
-              ></TDWeekMeal>
-              <TDWeekMeal
-                day="w_1"
-                week={weekYear}
-                meal="lun"
-                selectedMeal={selectedMeal}
-                setSelectedMeal={setSelectedMeal}
-                m={sessionWeeks[weekYear]["w_1"]["lun"]}
-              ></TDWeekMeal>
-              <TDWeekMeal
-                day="w_1"
-                week={weekYear}
-                meal="din"
-                selectedMeal={selectedMeal}
-                setSelectedMeal={setSelectedMeal}
-                m={sessionWeeks[weekYear]["w_1"]["din"]}
-              ></TDWeekMeal>
-            </tr>
-            <tr>
-              <TDWeekMealDay>
-                Monday
-                <br></br>
-                {startOfTheWeek.add(1, "day").format("(DD-MM)")}
-              </TDWeekMealDay>
-              <TDWeekMeal
-                day="w_2"
-                week={weekYear}
-                meal="brk"
-                selectedMeal={selectedMeal}
-                setSelectedMeal={setSelectedMeal}
-                m={sessionWeeks[weekYear]["w_2"]["brk"]}
-              ></TDWeekMeal>
-              <TDWeekMeal
-                day="w_2"
-                week={weekYear}
-                meal="lun"
-                selectedMeal={selectedMeal}
-                setSelectedMeal={setSelectedMeal}
-                m={sessionWeeks[weekYear]["w_2"]["lun"]}
-              ></TDWeekMeal>
-              <TDWeekMeal
-                day="w_2"
-                week={weekYear}
-                meal="din"
-                selectedMeal={selectedMeal}
-                setSelectedMeal={setSelectedMeal}
-                m={sessionWeeks[weekYear]["w_2"]["din"]}
-              ></TDWeekMeal>
-            </tr>
-            <tr>
-              <TDWeekMealDay>
-                Tuesday
-                <br></br>
-                {startOfTheWeek.add(2, "day").format("(DD-MM)")}
-              </TDWeekMealDay>
-              <TDWeekMeal
-                day="w_3"
-                week={weekYear}
-                meal="brk"
-                selectedMeal={selectedMeal}
-                setSelectedMeal={setSelectedMeal}
-                m={sessionWeeks[weekYear]["w_3"]["brk"]}
-              ></TDWeekMeal>
-              <TDWeekMeal
-                day="w_3"
-                week={weekYear}
-                meal="lun"
-                selectedMeal={selectedMeal}
-                setSelectedMeal={setSelectedMeal}
-                m={sessionWeeks[weekYear]["w_3"]["lun"]}
-              ></TDWeekMeal>
-              <TDWeekMeal
-                day="w_3"
-                week={weekYear}
-                meal="din"
-                selectedMeal={selectedMeal}
-                setSelectedMeal={setSelectedMeal}
-                m={sessionWeeks[weekYear]["w_3"]["din"]}
-              ></TDWeekMeal>
-            </tr>
-            <tr>
-              <TDWeekMealDay>
-                Wendsday
-                <br></br>
-                {startOfTheWeek.add(3, "day").format("(DD-MM)")}
-              </TDWeekMealDay>
-              <TDWeekMeal
-                day="w_4"
-                week={weekYear}
-                meal="brk"
-                selectedMeal={selectedMeal}
-                setSelectedMeal={setSelectedMeal}
-                m={sessionWeeks[weekYear]["w_4"]["brk"]}
-              ></TDWeekMeal>
-              <TDWeekMeal
-                day="w_4"
-                week={weekYear}
-                meal="lun"
-                selectedMeal={selectedMeal}
-                setSelectedMeal={setSelectedMeal}
-                m={sessionWeeks[weekYear]["w_4"]["lun"]}
-              ></TDWeekMeal>
-              <TDWeekMeal
-                day="w_4"
-                week={weekYear}
-                meal="din"
-                selectedMeal={selectedMeal}
-                setSelectedMeal={setSelectedMeal}
-                m={sessionWeeks[weekYear]["w_4"]["din"]}
-              ></TDWeekMeal>
-            </tr>
-            <tr>
-              <TDWeekMealDay>
-                Thursday
-                <br></br>
-                {startOfTheWeek.add(4, "day").format("(DD-MM)")}
-              </TDWeekMealDay>
-              <TDWeekMeal
-                day="w_5"
-                week={weekYear}
-                meal="brk"
-                selectedMeal={selectedMeal}
-                setSelectedMeal={setSelectedMeal}
-                m={sessionWeeks[weekYear]["w_5"]["brk"]}
-              ></TDWeekMeal>
-              <TDWeekMeal
-                day="w_5"
-                week={weekYear}
-                meal="lun"
-                selectedMeal={selectedMeal}
-                setSelectedMeal={setSelectedMeal}
-                m={sessionWeeks[weekYear]["w_5"]["lun"]}
-              ></TDWeekMeal>
-              <TDWeekMeal
-                day="w_5"
-                week={weekYear}
-                meal="din"
-                selectedMeal={selectedMeal}
-                setSelectedMeal={setSelectedMeal}
-                m={sessionWeeks[weekYear]["w_5"]["din"]}
-              ></TDWeekMeal>
-            </tr>
-            <tr>
-              <TDWeekMealDay>
-                Friday
-                <br></br>
-                {startOfTheWeek.add(5, "day").format("(DD-MM)")}
-              </TDWeekMealDay>
-              <TDWeekMeal
-                day="w_6"
-                week={weekYear}
-                meal="brk"
-                selectedMeal={selectedMeal}
-                setSelectedMeal={setSelectedMeal}
-                m={sessionWeeks[weekYear]["w_6"]["brk"]}
-              ></TDWeekMeal>
-              <TDWeekMeal
-                day="w_6"
-                week={weekYear}
-                meal="lun"
-                selectedMeal={selectedMeal}
-                setSelectedMeal={setSelectedMeal}
-                m={sessionWeeks[weekYear]["w_6"]["lun"]}
-              ></TDWeekMeal>
-              <TDWeekMeal
-                day="w_6"
-                week={weekYear}
-                meal="din"
-                selectedMeal={selectedMeal}
-                setSelectedMeal={setSelectedMeal}
-                m={sessionWeeks[weekYear]["w_6"]["din"]}
-              ></TDWeekMeal>
-            </tr>
-            <tr>
-              <TDWeekMealDay>
-                Saturday
-                <br></br>
-                {startOfTheWeek.add(6, "day").format("(DD-MM)")}
-              </TDWeekMealDay>
-              <TDWeekMeal
-                day="w_7"
-                week={weekYear}
-                meal="brk"
-                selectedMeal={selectedMeal}
-                setSelectedMeal={setSelectedMeal}
-                m={sessionWeeks[weekYear]["w_7"]["brk"]}
-              ></TDWeekMeal>
-              <TDWeekMeal
-                day="w_7"
-                week={weekYear}
-                meal="lun"
-                selectedMeal={selectedMeal}
-                setSelectedMeal={setSelectedMeal}
-                m={sessionWeeks[weekYear]["w_7"]["lun"]}
-              ></TDWeekMeal>
-              <TDWeekMeal
-                day="w_7"
-                week={weekYear}
-                meal="din"
-                selectedMeal={selectedMeal}
-                setSelectedMeal={setSelectedMeal}
-                m={sessionWeeks[weekYear]["w_7"]["din"]}
-              ></TDWeekMeal>
-            </tr>
-          </tbody>
-        </WeekGridDiv>
+          <WeekGridDiv>
+            <thead>
+              <tr>
+                <td></td>
+                <TDWeelMealType>Breakfast</TDWeelMealType>
+                <TDWeelMealType>Lunch</TDWeelMealType>
+                <TDWeelMealType>Dinner</TDWeelMealType>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <TDWeekMealDay>
+                  Sunday
+                  <br></br>
+                  {startOfTheWeek.format("(DD-MM)")}
+                </TDWeekMealDay>
+                <TDWeekMeal
+                  day="w_1"
+                  week={weekYear}
+                  meal="brk"
+                  selectedMeal={selectedMeal}
+                  setSelectedMeal={setSelectedMeal}
+                  m={sessionWeeks[weekYear]["w_1"]["brk"]}
+                ></TDWeekMeal>
+                <TDWeekMeal
+                  day="w_1"
+                  week={weekYear}
+                  meal="lun"
+                  selectedMeal={selectedMeal}
+                  setSelectedMeal={setSelectedMeal}
+                  m={sessionWeeks[weekYear]["w_1"]["lun"]}
+                ></TDWeekMeal>
+                <TDWeekMeal
+                  day="w_1"
+                  week={weekYear}
+                  meal="din"
+                  selectedMeal={selectedMeal}
+                  setSelectedMeal={setSelectedMeal}
+                  m={sessionWeeks[weekYear]["w_1"]["din"]}
+                ></TDWeekMeal>
+              </tr>
+              <tr>
+                <TDWeekMealDay>
+                  Monday
+                  <br></br>
+                  {startOfTheWeek.add(1, "day").format("(DD-MM)")}
+                </TDWeekMealDay>
+                <TDWeekMeal
+                  day="w_2"
+                  week={weekYear}
+                  meal="brk"
+                  selectedMeal={selectedMeal}
+                  setSelectedMeal={setSelectedMeal}
+                  m={sessionWeeks[weekYear]["w_2"]["brk"]}
+                ></TDWeekMeal>
+                <TDWeekMeal
+                  day="w_2"
+                  week={weekYear}
+                  meal="lun"
+                  selectedMeal={selectedMeal}
+                  setSelectedMeal={setSelectedMeal}
+                  m={sessionWeeks[weekYear]["w_2"]["lun"]}
+                ></TDWeekMeal>
+                <TDWeekMeal
+                  day="w_2"
+                  week={weekYear}
+                  meal="din"
+                  selectedMeal={selectedMeal}
+                  setSelectedMeal={setSelectedMeal}
+                  m={sessionWeeks[weekYear]["w_2"]["din"]}
+                ></TDWeekMeal>
+              </tr>
+              <tr>
+                <TDWeekMealDay>
+                  Tuesday
+                  <br></br>
+                  {startOfTheWeek.add(2, "day").format("(DD-MM)")}
+                </TDWeekMealDay>
+                <TDWeekMeal
+                  day="w_3"
+                  week={weekYear}
+                  meal="brk"
+                  selectedMeal={selectedMeal}
+                  setSelectedMeal={setSelectedMeal}
+                  m={sessionWeeks[weekYear]["w_3"]["brk"]}
+                ></TDWeekMeal>
+                <TDWeekMeal
+                  day="w_3"
+                  week={weekYear}
+                  meal="lun"
+                  selectedMeal={selectedMeal}
+                  setSelectedMeal={setSelectedMeal}
+                  m={sessionWeeks[weekYear]["w_3"]["lun"]}
+                ></TDWeekMeal>
+                <TDWeekMeal
+                  day="w_3"
+                  week={weekYear}
+                  meal="din"
+                  selectedMeal={selectedMeal}
+                  setSelectedMeal={setSelectedMeal}
+                  m={sessionWeeks[weekYear]["w_3"]["din"]}
+                ></TDWeekMeal>
+              </tr>
+              <tr>
+                <TDWeekMealDay>
+                  Wendsday
+                  <br></br>
+                  {startOfTheWeek.add(3, "day").format("(DD-MM)")}
+                </TDWeekMealDay>
+                <TDWeekMeal
+                  day="w_4"
+                  week={weekYear}
+                  meal="brk"
+                  selectedMeal={selectedMeal}
+                  setSelectedMeal={setSelectedMeal}
+                  m={sessionWeeks[weekYear]["w_4"]["brk"]}
+                ></TDWeekMeal>
+                <TDWeekMeal
+                  day="w_4"
+                  week={weekYear}
+                  meal="lun"
+                  selectedMeal={selectedMeal}
+                  setSelectedMeal={setSelectedMeal}
+                  m={sessionWeeks[weekYear]["w_4"]["lun"]}
+                ></TDWeekMeal>
+                <TDWeekMeal
+                  day="w_4"
+                  week={weekYear}
+                  meal="din"
+                  selectedMeal={selectedMeal}
+                  setSelectedMeal={setSelectedMeal}
+                  m={sessionWeeks[weekYear]["w_4"]["din"]}
+                ></TDWeekMeal>
+              </tr>
+              <tr>
+                <TDWeekMealDay>
+                  Thursday
+                  <br></br>
+                  {startOfTheWeek.add(4, "day").format("(DD-MM)")}
+                </TDWeekMealDay>
+                <TDWeekMeal
+                  day="w_5"
+                  week={weekYear}
+                  meal="brk"
+                  selectedMeal={selectedMeal}
+                  setSelectedMeal={setSelectedMeal}
+                  m={sessionWeeks[weekYear]["w_5"]["brk"]}
+                ></TDWeekMeal>
+                <TDWeekMeal
+                  day="w_5"
+                  week={weekYear}
+                  meal="lun"
+                  selectedMeal={selectedMeal}
+                  setSelectedMeal={setSelectedMeal}
+                  m={sessionWeeks[weekYear]["w_5"]["lun"]}
+                ></TDWeekMeal>
+                <TDWeekMeal
+                  day="w_5"
+                  week={weekYear}
+                  meal="din"
+                  selectedMeal={selectedMeal}
+                  setSelectedMeal={setSelectedMeal}
+                  m={sessionWeeks[weekYear]["w_5"]["din"]}
+                ></TDWeekMeal>
+              </tr>
+              <tr>
+                <TDWeekMealDay>
+                  Friday
+                  <br></br>
+                  {startOfTheWeek.add(5, "day").format("(DD-MM)")}
+                </TDWeekMealDay>
+                <TDWeekMeal
+                  day="w_6"
+                  week={weekYear}
+                  meal="brk"
+                  selectedMeal={selectedMeal}
+                  setSelectedMeal={setSelectedMeal}
+                  m={sessionWeeks[weekYear]["w_6"]["brk"]}
+                ></TDWeekMeal>
+                <TDWeekMeal
+                  day="w_6"
+                  week={weekYear}
+                  meal="lun"
+                  selectedMeal={selectedMeal}
+                  setSelectedMeal={setSelectedMeal}
+                  m={sessionWeeks[weekYear]["w_6"]["lun"]}
+                ></TDWeekMeal>
+                <TDWeekMeal
+                  day="w_6"
+                  week={weekYear}
+                  meal="din"
+                  selectedMeal={selectedMeal}
+                  setSelectedMeal={setSelectedMeal}
+                  m={sessionWeeks[weekYear]["w_6"]["din"]}
+                ></TDWeekMeal>
+              </tr>
+              <tr>
+                <TDWeekMealDay>
+                  Saturday
+                  <br></br>
+                  {startOfTheWeek.add(6, "day").format("(DD-MM)")}
+                </TDWeekMealDay>
+                <TDWeekMeal
+                  day="w_7"
+                  week={weekYear}
+                  meal="brk"
+                  selectedMeal={selectedMeal}
+                  setSelectedMeal={setSelectedMeal}
+                  m={sessionWeeks[weekYear]["w_7"]["brk"]}
+                ></TDWeekMeal>
+                <TDWeekMeal
+                  day="w_7"
+                  week={weekYear}
+                  meal="lun"
+                  selectedMeal={selectedMeal}
+                  setSelectedMeal={setSelectedMeal}
+                  m={sessionWeeks[weekYear]["w_7"]["lun"]}
+                ></TDWeekMeal>
+                <TDWeekMeal
+                  day="w_7"
+                  week={weekYear}
+                  meal="din"
+                  selectedMeal={selectedMeal}
+                  setSelectedMeal={setSelectedMeal}
+                  m={sessionWeeks[weekYear]["w_7"]["din"]}
+                ></TDWeekMeal>
+              </tr>
+            </tbody>
+          </WeekGridDiv>
+        </>
       )}
     </>
   );

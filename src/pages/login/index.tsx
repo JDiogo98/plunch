@@ -13,9 +13,10 @@ import { BlackXLText } from "@/components/BlackXLText";
 import { HeyComponent } from "@/components/heyComponent";
 import { Loader } from "@/components/Loader";
 import { FeedBackText } from "@/components/feedbackText";
+import { is } from "date-fns/locale";
 
 export const AuthContainer = styled.div`
-  width: 100%;
+  width: calc(100% - 4rem);
   max-width: 500px;
   padding: 2rem;
   place-items: center;
@@ -56,18 +57,18 @@ export const BlackSText = styled(BlackXSText)`
 `;
 
 export default function LogInPage() {
-  const { isAuth } = useGlobalContext();
+  const { isAuth, setIsAuth, setNavOption } = useGlobalContext();
   const router = useRouter();
 
-  console.log(isAuth.isAuth);
-
-  if (hasCookie("authToken")) {
-    router.push("/meals");
-  }
+  setNavOption("login");
 
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [request, setRequest] = useState<requestType>(defaultRequest);
+
+  if (hasCookie("authToken")) {
+    router.push("/dashboard");
+  }
 
   const onLogInSubmit = async (e: React.FormEvent) => {
     try {
@@ -90,6 +91,7 @@ export default function LogInPage() {
         submitted: true,
       });
       setCookie("authToken", response.data.authToken);
+      setIsAuth({ firstName: "", lastName: "", isAuth: true });
 
       setTimeout(() => {
         router.push("/dashboard");

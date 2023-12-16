@@ -1,11 +1,8 @@
-import { AuthButton } from "@/pages/login";
 import Image from "next/image";
 import Link from "next/link";
 import styled from "styled-components";
 import { nullAddMealProcess, useGlobalContext } from "../../Context/store";
 import { AddSvg } from "./svgAdd";
-import css from "styled-jsx/css";
-import { useEffect } from "react";
 import { useRouter } from "next/router";
 
 const MealResultContainer = styled.div`

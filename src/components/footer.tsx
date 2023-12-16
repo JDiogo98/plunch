@@ -12,21 +12,29 @@ const LandingFooter = styled.footer`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
+  width: calc(100% - 30px);
   background-color: #c8161d;
   color: #ffffff;
-  padding: 2rem;
+  padding: 15px;
+
+  @media (min-width: 1199px) {
+    flex-direction: row;
+    justify-content: space-evenly;
+    transform: translateY(20%)
+  }
 `;
 
 const FooterTitle = styled.span`
-  padding: 2rem;
-  font-size: 2rem;
+  font-size: 1.5rem;
+  margin: 25px;
 `;
 
 const DownloadsDiv = styled.div`
   display: flex;
   width: 100%;
-  justify-content: space-evenly;
+  margin-top: 20px;
+  gap: 20px;
+  justify-content: space-between;
 `;
 
 const AppsLink = styled(Image)`
@@ -45,24 +53,36 @@ const LinksContainer = styled.div`
 
 const SocialContainer = styled.div`
   display: flex;
-  gap: 2rem;
+  margin-top: 20px;
+  justify-content: space-between;
+`;
+
+const DivContainer = styled.div`
+  margin: 25px;
 `;
 
 export function Footer() {
   return (
     <>
       <LandingFooter>
-        <FooterTitle>Download our App</FooterTitle>
-        <DownloadsDiv>
-          <AppsLink src={DownloadAppStore} alt="Error at AppStore"></AppsLink>
-          <AppsLink src={DownloadPlayStore} alt="Error at PlayStore"></AppsLink>
-        </DownloadsDiv>
-        <FooterTitle>Follow Us</FooterTitle>
-        <SocialContainer>
-          <InstaSvg></InstaSvg>
-          <FaceSvg></FaceSvg>
-          <WhatsSvg></WhatsSvg>
-        </SocialContainer>
+        <DivContainer>
+          <FooterTitle>Download our App</FooterTitle>
+          <DownloadsDiv>
+            <AppsLink src={DownloadAppStore} alt="Error at AppStore"></AppsLink>
+            <AppsLink
+              src={DownloadPlayStore}
+              alt="Error at PlayStore"
+            ></AppsLink>
+          </DownloadsDiv>
+        </DivContainer>
+        <DivContainer>
+          <FooterTitle>Follow Us</FooterTitle>
+          <SocialContainer>
+            <InstaSvg></InstaSvg>
+            <FaceSvg></FaceSvg>
+            <WhatsSvg></WhatsSvg>
+          </SocialContainer>
+        </DivContainer>
         <FooterTitle>© 2023 Plunch, Inc</FooterTitle>
         <LinksContainer>
           <FooterLink>Privacy</FooterLink>

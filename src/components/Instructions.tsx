@@ -10,13 +10,8 @@ const InstructionsContainer = styled.div`
   padding: 1rem;
   max-height: 200px;
   overflow: scroll;
-  box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 9px;
-  &::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-    border-radius: 10px;
-    background-color: #f5f5f5;
-  }
-
+  grid-area: inst;
+  box-shadow: rgba(139, 137, 137, 0.15) 0px 2px 9px;
   &::-webkit-scrollbar {
     width: 12px;
     background-color: #f5f5f5;
@@ -26,6 +21,9 @@ const InstructionsContainer = styled.div`
     border-radius: 10px;
     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
     background-color: #9a9696;
+  }
+  @media (min-width: 700px) {
+    max-height: 800px;
   }
 `;
 

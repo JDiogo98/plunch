@@ -1,18 +1,19 @@
 import React from "react";
 
-export const BackSvg = () => {
+export const NavBtnSvg = () => {
   return (
     <>
       <svg
-        width="3.1rem"
-        height="3.1rem"
+        width="2rem"
+        height="2rem"
         style={{
+          padding: "5px 25px 5px 25px",
           aspectRatio: "1/1",
-          boxShadow: "0px 10px 10px rgba(0, 0, 0, 0.15)",
+          boxShadow: "0px 0px 15px rgba(0, 0, 0, 0.15)",
           borderRadius: "10px",
         }}
         viewBox="0 0 1125 1051"
-        fill="#696868"
+        fill="#252525"
         className="icon"
         version="1.1"
         xmlns="http://www.w3.org/2000/svg"

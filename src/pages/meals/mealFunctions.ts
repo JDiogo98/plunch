@@ -1,7 +1,5 @@
 import axios from "axios";
-import { log } from "console";
 import { Meal } from "../../../Context/SearchTypes";
-import { LogInContainer } from "../login";
 import dayjs from "dayjs";
 
 export async function getMealRecipe(id: string | string[] | undefined) {
@@ -69,7 +67,7 @@ function toAddMeal(m: any) {
   }
 }
 
-export function addingTo(d, y, m) {
+export function addingTo(d: any, y: any, m: any) {
   const currentWeek = y.split("_");
   const amountOfDays = currentWeek[0] * 7 + toAddDays(d[2] * 1);
   console.log(amountOfDays);
@@ -80,4 +78,3 @@ export function addingTo(d, y, m) {
     "DD-MMM"
   )} `;
 }
-

@@ -1,4 +1,3 @@
-import { BlackMText } from "@/pages/login";
 import styled from "styled-components";
 
 export const BlackLText = styled.h1`

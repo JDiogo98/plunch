@@ -4,7 +4,7 @@ import { Footer } from "@/components/footer";
 import { useGlobalContext } from "../../Context/store";
 
 export default function LandingPage() {
-  const { setNavOption } = useGlobalContext();
+  const { setNavOption, userData } = useGlobalContext();
 
   useEffect(() => {
     setNavOption("landing");

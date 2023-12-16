@@ -30,16 +30,18 @@ const NavBottomContainer = styled.nav`
 
 const NavTopContainer = styled(NavBottomContainer)`
   top: 0;
+  position: absolute;
   width: 100%;
   max-height: 50px;
   box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
   grid-template-columns: 1fr 3fr 1fr;
   margin: 0 auto 1rem auto;
-  padding-bottom: 30px;
+  padding-bottom: 0px;
+  padding-bottom: 0px;
   padding-top: 25px;
-  max-width: 800px;
   place-items: center;
   place-self: center;
+  background: none;
 `;
 const NavBarLinks = styled(Link)`
   &:hover {
@@ -47,7 +49,7 @@ const NavBarLinks = styled(Link)`
   }
 `;
 
-const NavBar = () => {
+export const NavBar = ({ children }) => {
   const { navOption, setNavOption, isAuth, setAddMealProcess, setIsAuth } =
     useGlobalContext();
 
@@ -74,10 +76,17 @@ const NavBar = () => {
     }
   }
 
+  const NavFlag = !(
+    navOption === "landing" ||
+    navOption === "login" ||
+    navOption === "signup"
+  );
+
   return (
     <>
-      {navOption !== "landing" && isAuth ? (
+      {NavFlag ? (
         <NavContainer>
+          {children}
           <NavTopContainer>
             <div onClick={() => handleBackButton()}>
               <BackSvg></BackSvg>
@@ -95,7 +104,7 @@ const NavBar = () => {
               }}
             >
               <HomeSvg
-                color={navOption == "home" ? "#c8161d" : "#757575"}
+                color={navOption === "home" ? "#c8161d" : "#757575"}
                 size={"3rem"}
               ></HomeSvg>
             </NavBarLinks>
@@ -106,7 +115,7 @@ const NavBar = () => {
               }}
             >
               <SearchSvg
-                color={navOption == "search" ? "#c8161d" : "#757575"}
+                color={navOption === "search" ? "#c8161d" : "#757575"}
                 size={"2.4rem"}
               ></SearchSvg>
             </NavBarLinks>
@@ -118,14 +127,14 @@ const NavBar = () => {
             >
               <AccountSvg
                 size={"2rem"}
-                color={navOption == "account" ? "#c8161d" : "#757575"}
+                color={navOption === "account" ? "#c8161d" : "#757575"}
               ></AccountSvg>
             </NavBarLinks>
           </NavBottomContainer>
         </NavContainer>
-      ) : null}
+      ) : (
+        children
+      )}
     </>
   );
 };
-
-export default NavBar;

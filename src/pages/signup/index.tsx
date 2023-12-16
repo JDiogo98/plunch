@@ -10,6 +10,7 @@ import { Loader } from "@/components/Loader";
 import { FeedBackText } from "@/components/feedbackText";
 import { setCookie } from "cookies-next";
 import { useRouter } from "next/router";
+import { useGlobalContext } from "../../../Context/store";
 
 export default function LogInPage() {
   const [email, setEmail] = useState<string>("");
@@ -20,6 +21,9 @@ export default function LogInPage() {
 
   const router = useRouter();
 
+  const { setNavOption } = useGlobalContext();
+
+  setNavOption("signup");
   const onRegisterSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 

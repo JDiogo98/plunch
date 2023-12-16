@@ -11,17 +11,23 @@ import Image from "next/image";
 import Link from "next/link";
 
 const BannerContainer = styled.div`
-  padding: 2rem;
-  width: 100%;
+  padding: 35px;
+  width: calc(100%-70px);
   display: grid;
   gap: 1rem;
   background-color: white;
-  grid-template-rows: auto auto 2fr;
-  margin-bottom: -30%;
+  margin-bottom: -150px;
   grid-template-areas:
     "g_imgSalad   g_red1"
     "g_imgFamily g_imgChicken"
     "g_Elements g_Elements";
+
+  @media (min-width: 1199px) {
+    gap: 2rem;
+    grid-template-areas:
+      "g_imgSalad   g_red1 g_Elements g_imgTable"
+      "g_imgFamily g_imgChicken g_Elements g_imgLunch";
+  }
 `;
 
 const FamilyImg = styled(Image)`
@@ -30,6 +36,9 @@ const FamilyImg = styled(Image)`
   height: auto;
   transform: translateY(-50%);
   grid-area: g_imgFamily;
+  @media (min-width: 1199px) {
+    transform: translateY(-25%);
+  }
 `;
 
 const SaladImg = styled(Image)`
@@ -38,6 +47,9 @@ const SaladImg = styled(Image)`
   height: auto;
   transform: translateY(-50%);
   grid-area: g_imgSalad;
+  @media (min-width: 1199px) {
+    transform: translateY(-25%);
+  }
 `;
 const ChickenImg = styled(Image)`
   width: 100%;
@@ -45,6 +57,9 @@ const ChickenImg = styled(Image)`
   height: auto;
   transform: translateY(-75%);
   grid-area: g_imgChicken;
+  @media (min-width: 1199px) {
+    transform: translateY(-50%);
+  }
 `;
 const LunchImg = styled(Image)`
   width: 100%;
@@ -52,6 +67,11 @@ const LunchImg = styled(Image)`
   height: auto;
   grid-area: g_imgLunch;
   display: none;
+
+  @media (min-width: 1199px) {
+    display: inline;
+    transform: translateY(-30%);
+  }
 `;
 const ShopImg = styled(Image)`
   width: 100%;
@@ -66,6 +86,10 @@ const TableImg = styled(Image)`
   height: auto;
   grid-area: g_imgTable;
   display: none;
+  @media (min-width: 1199px) {
+    display: inline;
+    transform: translateY(-20%);
+  }
 `;
 const RedElement1 = styled.div`
   background-color: #c8161d;
@@ -73,6 +97,9 @@ const RedElement1 = styled.div`
   width: 100%;
   transform: translateY(-75%);
   grid-area: g_red1;
+  @media (min-width: 1199px) {
+    transform: translateY(-50%);
+  }
 `;
 const RedElement2 = styled.div`
   background-color: #c8161d;
@@ -85,8 +112,13 @@ const LandingText = styled.h1`
   text-align: justify;
   font-family: "Geomanist", sans-serif;
   color: black;
-  margin-bottom: 3rem;
-  font-size: 1rem;
+  font-weight: 550;
+  margin-bottom: 25px;
+  font-size: 16px;
+
+  @media (min-width: 700px) {
+    font-size: 24px;
+  }
 `;
 const LandingButtonLogIn = styled.button`
   background-color: #c8161d;
@@ -98,10 +130,14 @@ const LandingButtonLogIn = styled.button`
   margin: 0 1rem 0 1rem;
   font-family: "Geomanist", sans-serif;
   border-radius: 25px;
-  font-size: 1.5rem;
+  font-size: 19px;
+
+  @media (min-width: 700px) {
+    font-size: 28px;
+  }
 `;
 const LandingButtonSignUp = styled(LandingButtonLogIn)`
-  margin: 2rem;
+  margin: 50px;
 `;
 const LandingLogo = styled(Image)`
   width: 100%;
@@ -114,8 +150,11 @@ const ElementsContainer = styled.div`
   justify-content: center;
   align-items: center;
   grid-area: g_Elements;
-  z-index: 5;
   transform: translateY(-20%);
+
+  @media (min-width: 1199px) {
+    transform: translateY(-5%);
+  }
 `;
 export default function Banner() {
   return (
