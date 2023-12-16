@@ -46,10 +46,10 @@ export const nullAddMealProcess = {
 };
 
 interface addMealProcessInterface {
-  selectedMeal: StringOrNull;
-  currentWeek: StringOrNull;
-  currentDay: StringOrNull;
-  currentMeal: StringOrNull;
+  selectedMeal: StringOrNull | any;
+  currentWeek: StringOrNull | any;
+  currentDay: StringOrNull | any;
+  currentMeal: StringOrNull | any;
 }
 
 interface ContextProps {
