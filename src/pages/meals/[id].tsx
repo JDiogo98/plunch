@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { getMealRecipe, splitIngredients } from "./mealFunctions";
+import { getMealRecipe, splitIngredients } from "../../../public/mealFunctions";
 
 import { Ingredient } from "@/components/Ingredient";
 import { Instructions } from "@/components/Instructions";

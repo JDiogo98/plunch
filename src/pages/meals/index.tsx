@@ -9,7 +9,7 @@ import { MealsResults } from "@/components/mealsResults";
 import { NoResultsMessage } from "@/components/noResults";
 import { AddSvg } from "@/components/svgAdd";
 import { Loader } from "@/components/Loader";
-import { addingTo } from "./mealFunctions";
+import { addingTo } from "../../../public/mealFunctions";
 import { BlackMText } from "@/components/textsAndSizes";
 
 const SearchPageContainer = styled.div`
