@@ -54,8 +54,8 @@ interface addMealProcessInterface {
 
 interface ContextProps {
   meals: MealList | MealListNull;
-  setMeals: Dispatch<SetStateAction<MealList>>;
-  searchMeals: (term: string) => MealList | void | undefined;
+  setMeals: any;
+  searchMeals: any;
   userData: any;
   getUserData: any;
   getSearchMeals: any;
@@ -142,15 +142,11 @@ export const GlobalContextProvider = ({ children }: any) => {
     return;
   }
 
-  // useEffect(() => {
-  //   if (userData !== undefined) {
-  //     setUpdatePlans(userData["user_id"], userData["user_list_id"], se);
-  //   }
-  // }, [sessionWeeks]);
-
   return (
     <GlobalContext.Provider
       value={{
+        searchMeals,
+        setMeals,
         meals,
         getSearchMeals,
         userData,
