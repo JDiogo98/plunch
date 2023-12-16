@@ -8,15 +8,17 @@ import { Meal } from "../../../Context/SearchTypes";
 import { Ingredient } from "@/components/Ingredient";
 import { Instructions } from "@/components/Instructions";
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
+import { useGlobalContext } from "../../../Context/store";
 
 const MealsRecipeContainer = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 1.3rem;
+  padding: 2rem;
   max-width: 700px;
   margin: auto;
   height: 100%;
   width: 100%;
+  margin-top: 20%;
   gap: 0.2rem;
 `;
 
@@ -36,11 +38,10 @@ const MealsRecipeTitle = styled.p`
 `;
 
 const MealIngredients = styled.div`
-  /* width: 100%; */
   padding-top: 2rem;
-  background-color: #dcdcdc;
+  background-color: #f3f3f3;
   border-radius: 15px;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  box-shadow: rgba(0, 0, 0, 0.225) 0px 5px 15px;
 `;
 
 // Getting the id data in serverSideProps
@@ -67,13 +68,14 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 }
 
 export const MealRecipe = ({ MealData }: any) => {
+  const { setNavOption } = useGlobalContext();
+
+  setNavOption("meal");
+
   return (
     <>
       {MealData && (
         <MealsRecipeContainer>
-          <Link href={"/meals"} style={{ placeSelf: "start" }}>
-            <BackSvg></BackSvg>
-          </Link>
           <MealsRecipeImage
             src={MealData["strMealThumb"]}
             alt={"error at MealsRecipeImage"}
@@ -81,7 +83,6 @@ export const MealRecipe = ({ MealData }: any) => {
           <MealsRecipeTitle>{MealData["strMeal"]}</MealsRecipeTitle>
           <MealIngredients>
             {MealData &&
-              // splitIngredients extract the ingredients from the MealData
               splitIngredients(MealData).map((i: any) => {
                 return <Ingredient ing={i}></Ingredient>;
               })}

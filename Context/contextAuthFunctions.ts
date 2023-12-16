@@ -25,6 +25,12 @@ export async function updatePlans(
   updatePlans: any
 ) {
   const authToken = getCookie("authToken");
+
+
+  if (updatePlans == null)  {
+    return
+  }
+
   try {
     await axios.patch(
       `https://x8ki-letl-twmt.n7.xano.io/api:pXhZqBYW/users_plans/${list_id}`,
@@ -44,6 +50,3 @@ export async function updatePlans(
     throw error;
   }
 }
-
-
-

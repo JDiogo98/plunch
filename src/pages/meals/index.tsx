@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { BackSvg } from "../../../public/landingImgs/back";
-import { AuthButton, Loader } from "../login";
 import { SearchSvg } from "../../../public/landingImgs/searchSvg";
 import { FormEvent, useEffect, useState } from "react";
 import {
@@ -9,18 +8,25 @@ import {
 } from "../../../Context/store";
 import { MealsResults } from "@/components/mealsResults";
 import { NoResultsMessage } from "@/components/noResults";
-import { set } from "date-fns";
+import { AddSvg } from "@/components/svgAdd";
+import { BlackLText } from "@/components/heyComponent";
+import { Loader } from "@/components/Loader";
+import { AuthButton } from "@/components/AuthButton";
+import { addingTo } from "./mealFunctions";
+import { BlackMText } from "@/components/textsAndSizes";
 
 const SearchPageContainer = styled.div`
   display: flex;
+  position: fixed;
   flex-direction: column;
   padding: 1rem;
   height: 100%;
-  width: 95%;
+  width: 92%;
   max-width: 700px;
   margin: auto;
-  gap: 2rem;
-  /* grid-template-rows: 1fr 0.5fr 1fr 7fr 2fr 1fr; */
+  margin-top: 10px;
+  padding-bottom: 150px;
+  margin-bottom: 100px;
 `;
 const SearchPageInput = styled.input`
   border-radius: 15px;
@@ -33,18 +39,16 @@ const SearchPageInput = styled.input`
 `;
 
 const UnispiredButton = styled(AuthButton)`
-  grid-row: 3/4;
-  border-radius: 10px;
+  border-radius: 20px;
   width: 80%;
+  font-size: 0.5rem;
   padding: 0.4rem 1rem 0.4rem 1rem;
 `;
 
 const ResultsContainer = styled.div`
-  overflow: scroll;
-  height: 80%;
-  min-height: 70vh;
-  max-height: 80vh;
-  /* display: grid; */
+  margin-top: 3rem;
+  overflow-y: scroll;
+  max-height: 56%;
   padding: 0.56em;
   &::-webkit-scrollbar-track {
     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
@@ -60,13 +64,14 @@ const ResultsContainer = styled.div`
   &::-webkit-scrollbar-thumb {
     border-radius: 10px;
     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-    background-color: #9a9696;
+    background-color: #d5d3d3;
   }
 `;
 
 const SerchInputContainer = styled.div`
   width: 100%;
   display: flex;
+  margin-top: 100px;
   justify-content: space-between;
   border-radius: 25px;
   background-color: #ececec;
@@ -81,7 +86,8 @@ const SearchButton = styled.button`
 
 const SearchMealsPage = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
-  const { meals, getSearchMeals, setNavOption } = useGlobalContext();
+  const { meals, getSearchMeals, setNavOption, addMealProcess } =
+    useGlobalContext();
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const handleSearch = async (e: MouseEvent | FormEvent) => {
@@ -110,7 +116,6 @@ const SearchMealsPage = () => {
   return (
     <>
       <SearchPageContainer>
-        <BackSvg></BackSvg>
         <form onSubmit={(e) => handleSearch(e)}>
           <SerchInputContainer>
             <SearchPageInput
@@ -124,16 +129,30 @@ const SearchMealsPage = () => {
             </SearchButton>
           </SerchInputContainer>
         </form>
-        <UnispiredButton onClick={() => getSearchMeals("random")}>
+        <UnispiredButton
+          onClick={() => getSearchMeals("random")}
+          text={"Unnispired"}
+        >
           Unispired
         </UnispiredButton>
+        {addMealProcess["currentDay"] && (
+          <BlackMText>
+            {addingTo(
+              addMealProcess["currentDay"],
+              addMealProcess["currentWeek"],
+              addMealProcess["currentMeal"]
+            )}
+          </BlackMText>
+        )}
         <ResultsContainer>
           {isLoading ? (
-            <Loader />
+            <Loader flag={isLoading} />
           ) : meals["meals"] !== null ? (
             <>
               {Object.values(meals["meals"]).map((v) => (
-                <MealsResults key={v["idMeal"]} meal={v}></MealsResults>
+                <MealsResults key={v["idMeal"]} meal={v}>
+                  {addMealProcess["currentDay"] && <AddSvg></AddSvg>}
+                </MealsResults>
               ))}
             </>
           ) : (

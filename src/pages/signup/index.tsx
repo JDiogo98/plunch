@@ -1,28 +1,15 @@
 import React, { useState } from "react";
-import styled from "styled-components";
-import {
-  AuthButton,
-  AuthForm,
-  AuthInput,
-  BlackLText,
-  BlackMText,
-  BlackSText,
-  BlackXLText,
-  BlackXSText,
-  GreyMText,
-  Loader,
-  LogInContainer,
-  defaultRequest,
-  requestType,
-} from "../login";
 import axios from "axios";
-import { error } from "console";
-
-const SignUpContainer = styled(LogInContainer)`
-  max-width: 500px;
-`;
-
-
+import { HeyComponent } from "@/components/heyComponent";
+import { TermsAndConditions } from "@/components/termsAndConditions";
+import { AuthContainer, AuthForm, defaultRequest, requestType } from "../login";
+import { BlackXLText } from "@/components/BlackXLText";
+import { AuthInput } from "@/components/AuthInput";
+import { AuthButton } from "@/components/AuthButton";
+import { Loader } from "@/components/Loader";
+import { FeedBackText } from "@/components/feedbackText";
+import { setCookie } from "cookies-next";
+import { useRouter } from "next/router";
 
 export default function LogInPage() {
   const [email, setEmail] = useState<string>("");
@@ -31,9 +18,14 @@ export default function LogInPage() {
   const [password, setPassword] = useState<string>("");
   const [request, setRequest] = useState<requestType>(defaultRequest);
 
-  const onRegisterSubmit = async (e: any) => {
+  const router = useRouter();
+
+  const onRegisterSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    console.log(email, firstName, lastName, password);
+
     try {
-      e.preventDefault();
       setRequest({
         isLoading: true,
         error: false,
@@ -51,6 +43,16 @@ export default function LogInPage() {
         isLoading: false,
         submitted: true,
       });
+
+      const response = await axios.post(
+        "https://x8ki-letl-twmt.n7.xano.io/api:pXhZqBYW/auth/login",
+        { email, password }
+      );
+
+      setCookie("authToken", response.data.authToken);
+      setTimeout(() => {
+        router.push("/dashboard");
+      }, 1000);
     } catch (error: any) {
       console.log("Error at submit register: ", error);
       setRequest({
@@ -64,98 +66,42 @@ export default function LogInPage() {
 
   return (
     <>
-      <SignUpContainer>
-        <div
-          style={{
-            padding: "1rem",
-            width: "100%",
-            display: "flex",
-            alignItems: "start",
-            gridRow: "2/3",
-            flexDirection: "column",
-          }}
-        >
-          <BlackLText>Hey!</BlackLText>
-          <GreyMText>Let's cook</GreyMText>
-        </div>
-        <AuthForm onSubmit={onRegisterSubmit}>
-          <BlackXLText style={{ textAlign: "center", margin: "1rem" }}>
-            Sign Up
-          </BlackXLText>
-          <BlackMText
-            style={{ margin: "2rem 1rem 0rem 0", textAlign: "start" }}
-          >
-            First Name:
-          </BlackMText>
+      <AuthContainer>
+        <HeyComponent />
+        <AuthForm onSubmit={(e: React.FormEvent) => onRegisterSubmit(e)}>
+          <BlackXLText text={"Sign Up"} />
           <AuthInput
-            onChange={(e) => setFirstName(e.target.value)}
+            type={"text"}
             required
-            type="text"
-          ></AuthInput>
-          <BlackMText
-            style={{ margin: "2rem 1rem 0rem 0", textAlign: "start" }}
-          >
-            Last Name:
-          </BlackMText>
+            onChange={(e: any) => setFirstName(e.target.value)}
+            text={"First Name:"}
+          />
           <AuthInput
-            onChange={(e) => setLastName(e.target.value)}
+            type={"text"}
             required
-            type="text"
-          ></AuthInput>
-          <BlackMText
-            style={{ margin: "2rem 1rem 0rem 0", textAlign: "start" }}
-          >
-            E-mail:
-          </BlackMText>
+            onChange={(e: any) => setLastName(e.target.value)}
+            text={"Last Name:"}
+          />
           <AuthInput
-            onChange={(e) => setEmail(e.target.value)}
+            type={"text"}
             required
-            type="text"
-          ></AuthInput>
-          <BlackMText
-            style={{ margin: "2rem 1rem 0rem 0", textAlign: "start" }}
-          >
-            Password:
-          </BlackMText>
+            onChange={(e: any) => setEmail(e.target.value)}
+            text={"E-mail:"}
+          />
           <AuthInput
-            onChange={(e) => setPassword(e.target.value)}
             required
-            type="password"
-          ></AuthInput>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              margin: "1rem",
-              gap: "2rem",
-            }}
-          >
-            <BlackXSText>
-              Already have an account?{" "}
-              <span style={{ color: "#C8161D" }}>Login</span>
-            </BlackXSText>
-          </div>
-          <AuthButton>Sign Up</AuthButton>
-          {request.isLoading ? <Loader /> : <div></div>}
-          {request.error && <BlackSText>{request.errorMessage}</BlackSText>}
-          {!request.error && request.submitted && (
-            <BlackSText>Account Created!!</BlackSText>
-          )}
+            onChange={(e: any) => setPassword(e.target.value)}
+            text={"Password:"}
+          />
+          <AuthButton
+            onClick={(e: React.FormEvent) => onRegisterSubmit(e)}
+            text={"SIGN UP"}
+          />
         </AuthForm>
-        <BlackSText
-          style={{
-            gridRow: "5/6",
-            textAlign: "center",
-            padding: "2rem 3rem 2rem 3rem",
-            placeSelf: "center",
-          }}
-        >
-          When logging into an account, you agree to our
-          <span style={{ color: "#0F48DD" }}> Terms and Conditions </span>
-          and <span style={{ color: "#0F48DD" }}>Privacy Statement</span>. All
-          rights reserved. Copyright (2023) – Plunch™.
-        </BlackSText>
-      </SignUpContainer>
+        <Loader flag={request.isLoading} />
+        <FeedBackText text={request.errorMessage} />
+        <TermsAndConditions />
+      </AuthContainer>
     </>
   );
 }

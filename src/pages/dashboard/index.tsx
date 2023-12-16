@@ -3,16 +3,18 @@ import { GetServerSideProps, GetServerSidePropsContext } from "next";
 import cookie from "cookie";
 import {
   GlobalContextProvider,
+  nullAddMealProcess,
   useGlobalContext,
 } from "../../../Context/store";
 import { useEffect } from "react";
 import { fetchUserData } from "../../../Context/contextAuthFunctions";
 import WeekMeal from "@/components/weekmeal";
+import { useRouter } from "next/router";
 
 const GridContainer = styled.div`
   width: 100%;
   margin: auto;
-  margin-top: 20%;
+  margin-top: 30%;
 `;
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
@@ -21,14 +23,14 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const authToken = parsedCookies.authToken;
 
   // Check if authToken is not present, then redirect to the login page
-  if (!authToken) {
-    return {
-      redirect: {
-        permanent: false,
-        destination: "/login",
-      },
-    };
-  }
+  // if (!authToken) {
+  //   return {
+  //     redirect: {
+  //       permanent: false,
+  //       destination: "/login",
+  //     },
+  //   };
+  // }
 
   let userServerPropsResponse;
 
@@ -46,25 +48,36 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   }
   return {
     props: {
-      userData: userServerPropsResponse,
+      userData: userServerPropsResponse || null,
     },
   };
 }
 
 export default function WeekGrid({ userData }: any) {
-  const { setNavOption, setIsAuth } = useGlobalContext();
+  const {
+    setNavOption,
+    setIsAuth,
+    setSessionWeeks,
+    setUserData,
+    setAddMealProcess,
+  } = useGlobalContext();
 
+  const router = useRouter();
   useEffect(() => {
-    setNavOption("home");
-    setIsAuth({
-      firstName: userData["first_name"],
-      lastName: userData["last_name"],
-      isAuth: true,
-    });
+    if (userData) {
+      setNavOption("home");
+      setIsAuth({
+        firstName: userData["first_name"],
+        lastName: userData["last_name"],
+        isAuth: true,
+      });
+      setSessionWeeks(userData["plans_of_user"]["plans"]);
+      setUserData(userData);
+      setAddMealProcess(nullAddMealProcess);
+    } else {
+      router.push("/login");
+    }
   }, []);
-
-  console.log(userData);
-  
 
   return (
     <>
