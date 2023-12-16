@@ -1,9 +1,7 @@
 import axios from "axios";
 import { hasCookie, setCookie } from "cookies-next";
-import { set } from "date-fns";
-import { cookies } from "next/headers";
-import { Router, useRouter } from "next/router";
-import React, { ReactSVGElement, useState } from "react";
+import { useRouter } from "next/router";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { useGlobalContext } from "../../../Context/store";
 import { TermsAndConditions } from "@/components/termsAndConditions";
@@ -13,7 +11,6 @@ import { BlackXLText } from "@/components/BlackXLText";
 import { HeyComponent } from "@/components/heyComponent";
 import { Loader } from "@/components/Loader";
 import { FeedBackText } from "@/components/feedbackText";
-import { is } from "date-fns/locale";
 
 export const AuthContainer = styled.div`
   width: calc(100% - 4rem);
