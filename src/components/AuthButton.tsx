@@ -27,7 +27,8 @@ const IndicatorContainer = styled.div`
 const SignUpIndicator = () => {
   return (
     <BlackXSText>
-      Doesn`&apos;`'t have an account? <span style={{ color: "#C8161D" }}>Sign Up</span>
+      {"Doesn't have an account? "}
+      <span style={{ color: "#C8161D" }}>Sign Up</span>
     </BlackXSText>
   );
 };

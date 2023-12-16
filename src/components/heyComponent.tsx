@@ -25,8 +25,8 @@ export const HeyComponent = () => {
   return (
     <>
       <HeyComponentContainer>
-        <BlackLText>Hey!</BlackLText>
-        <GreyMText>Let`&apos;`'s cook</GreyMText>
+        <BlackLText>{"Hey!"}</BlackLText>
+        <GreyMText>{"Let's cook"}</GreyMText>
       </HeyComponentContainer>
     </>
   );

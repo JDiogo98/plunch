@@ -6,9 +6,7 @@ import { useGlobalContext } from "../../Context/store";
 export default function LandingPage() {
   const { setNavOption, userData } = useGlobalContext();
 
-  useEffect(() => {
-    setNavOption("landing");
-  }, []);
+  setNavOption("landing");
 
   return (
     <>

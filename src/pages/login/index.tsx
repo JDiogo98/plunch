@@ -53,7 +53,7 @@ export const BlackSText = styled(BlackXSText)`
   font-weight: 550;
 `;
 
-export default function LogInPage() {
+function LogInPage() {
   const { isAuth, setIsAuth, setNavOption } = useGlobalContext();
   const router = useRouter();
 
@@ -133,3 +133,5 @@ export default function LogInPage() {
     </>
   );
 }
+
+export default LogInPage;

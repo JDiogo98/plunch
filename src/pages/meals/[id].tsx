@@ -48,7 +48,7 @@ const MealsRecipeTitle = styled.p`
   @media (min-width: 700px) {
     justify-self: start;
     margin-left: 30px;
-}
+  }
 `;
 
 const MealIngredients = styled.div`
@@ -99,7 +99,7 @@ export const MealRecipe = ({ MealData }: any) => {
           <MealIngredients>
             {MealData &&
               splitIngredients(MealData).map((i: any) => {
-                return <Ingredient ing={i}></Ingredient>;
+                return <Ingredient ing={i} key={i}></Ingredient>;
               })}
           </MealIngredients>
           <Instructions inst={MealData["strInstructions"]}></Instructions>

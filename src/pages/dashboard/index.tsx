@@ -62,6 +62,7 @@ export default function WeekGrid({ userData }: any) {
   } = useGlobalContext();
 
   const router = useRouter();
+
   useEffect(() => {
     if (userData) {
       setNavOption("home");
@@ -76,7 +77,7 @@ export default function WeekGrid({ userData }: any) {
     } else {
       router.push("/login");
     }
-  }, []);
+  }, [userData]);
 
   return (
     <>
