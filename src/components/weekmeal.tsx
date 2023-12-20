@@ -121,7 +121,7 @@ type Plan = {
     | undefined;
 };
 
-export default function WeekMeal({ userData }: any) {
+export default function WeekMeal() {
   const { setUpdatePlans, sessionWeeks, setSessionWeeks } = useGlobalContext();
   const [date, setDate] = useState(dayjs());
   const [weekYear, setWeekYear] = useState(

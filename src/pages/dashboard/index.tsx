@@ -14,6 +14,7 @@ import { useRouter } from "next/router";
 const GridContainer = styled.div`
   width: 100%;
   margin: auto;
+  max-width: 1000px;
   margin-top: 100px;
 `;
 
@@ -36,8 +37,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   try {
     userServerPropsResponse = await fetchUserData(authToken);
   } catch (error) {
-    userServerPropsResponse = { status: 500 };
-    // throw new Error("Error at getting userData");
+    console.error("Error fetching user data:", error);
     return {
       redirect: {
         permanent: false,
@@ -81,9 +81,9 @@ export default function WeekGrid({ userData }: any) {
 
   return (
     <>
-      {userData && (
+      {userData?.plans_of_user?.plans && (
         <GridContainer>
-          <WeekMeal userData={userData}></WeekMeal>
+          <WeekMeal></WeekMeal>
         </GridContainer>
       )}
     </>

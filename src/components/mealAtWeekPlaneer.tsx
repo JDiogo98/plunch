@@ -24,7 +24,7 @@ const TDWeekMealText = styled.p`
 
 const DeleteContainer = styled(TDWeekMealContainer)`
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   padding: 1em;
   flex-direction: row;
   &:hover {

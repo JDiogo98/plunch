@@ -27,7 +27,7 @@ const MealListNullHolder = {
 };
 
 interface isAuthInterface {
-  isAuth: true | false;
+  isAuth: boolean;
   firstName: string | undefined;
   lastName: string | undefined;
 }
@@ -137,6 +137,7 @@ export const GlobalContextProvider = ({ children }: any) => {
       };
     }
   }
+
   async function setUpdatePlans(user_id: string, list_id: string, plans: any) {
     updatePlans(user_id, list_id, plans);
     return;

@@ -12,7 +12,7 @@ export async function getMealRecipe(id: string | string[] | undefined) {
   } catch (error) {
     console.log("Error at getting recipe", error);
   }
-}
+}                           
 
 export function splitIngredients(list: Meal) {
   const Ingredients = Object.entries(list);

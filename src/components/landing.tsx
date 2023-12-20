@@ -124,7 +124,7 @@ const LandingButtonLogIn = styled.button`
   background-color: #c8161d;
   color: #ffffff;
   border: none;
-  margin: 1rem;
+  margin: 20px;
   padding: 1rem;
   width: 100%;
   margin: 0 1rem 0 1rem;
@@ -137,7 +137,8 @@ const LandingButtonLogIn = styled.button`
   }
 `;
 const LandingButtonSignUp = styled(LandingButtonLogIn)`
-  margin: 50px;
+  /* margin: 2rem; */
+  /* width: 100%; */
 `;
 const LandingLogo = styled(Image)`
   width: 100%;
@@ -177,17 +178,30 @@ export default function Banner() {
             kitchen with Plunch!
           </LandingText>
 
-          <LandingButtonLogIn>
-            <Link href={"/login"} style={{ all: "unset" }}>
-              Log In
-            </Link>
-          </LandingButtonLogIn>
+          <Link
+            href={"/login"}
+            style={{
+              all: "unset",
+              marginTop: "1rem",
+              width: "calc(100% - 1rem)",
+              justifyItems: "start",
+            }}
+          >
+            Log In
+            <LandingButtonLogIn>Log In</LandingButtonLogIn>
+          </Link>
 
-          <LandingButtonSignUp>
-            <Link href={"/signup"} style={{ all: "unset" }}>
-              Sign Up
-            </Link>
-          </LandingButtonSignUp>
+          <Link
+            href={"/signup"}
+            style={{
+              all: "unset",
+              marginTop: "1rem",
+              width: "calc(100% - 1rem)",
+              justifyItems: "start",
+            }}
+          >
+            <LandingButtonSignUp>Sign Up</LandingButtonSignUp>
+          </Link>
         </ElementsContainer>
       </BannerContainer>
     </>

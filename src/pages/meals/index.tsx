@@ -11,6 +11,10 @@ import { AddSvg } from "@/components/svgAdd";
 import { Loader } from "@/components/Loader";
 import { addingTo } from "../../../public/mealFunctions";
 import { BlackMText } from "@/components/textsAndSizes";
+import { fetchUserData } from "../../../Context/contextAuthFunctions";
+import cookie from "cookie";
+import { GetServerSidePropsContext } from "next";
+import { useRouter } from "next/router";
 
 const SearchPageContainer = styled.div`
   display: flex;
@@ -84,12 +88,45 @@ const SearchButton = styled.button`
   border: none;
 `;
 
-const SearchMealsPage = () => {
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const cookiesToken = context.req.headers.cookie || "";
+  const parsedCookies = cookie.parse(cookiesToken);
+  const authToken = parsedCookies.authToken;
+
+  if (!authToken) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: "/login",
+      },
+    };
+  }
+
+  let userServerPropsResponse;
+
+  try {
+    userServerPropsResponse = await fetchUserData(authToken);
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+    return {
+      redirect: {
+        permanent: false,
+        destination: "/login",
+      },
+    };
+  }
+  return {
+    props: {
+      userData: userServerPropsResponse || null,
+    },
+  };
+}
+
+const SearchMealsPage = ({ userData }: any) => {
   const [searchTerm, setSearchTerm] = useState<string>("");
-  const { meals, getSearchMeals, setNavOption, addMealProcess, isAuth } =
+  const { meals, getSearchMeals, setNavOption, addMealProcess } =
     useGlobalContext();
   const [isLoading, setIsLoading] = useState<boolean>(true);
-
   const handleSearch = async (e: MouseEvent | FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
@@ -97,8 +134,18 @@ const SearchMealsPage = () => {
     setIsLoading(false);
   };
 
+  const router = useRouter()
+
+  console.log(userData);
+  
+
+
+
   useEffect(() => {
     const fetchData = async () => {
+      if (userData == null) {
+        router.push("login")
+      }
       setIsLoading(true);
       setNavOption("search");
       if (meals["meals"] == null) {
@@ -110,6 +157,7 @@ const SearchMealsPage = () => {
       }
       setIsLoading(false);
     };
+
     fetchData();
   }, []);
 
