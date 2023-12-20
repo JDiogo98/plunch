@@ -16,7 +16,7 @@ const LandingFooter = styled.footer`
   background-color: #c8161d;
   color: #ffffff;
   padding: 15px;
-
+  margin-top: 50px;
   @media (min-width: 1199px) {
     flex-direction: row;
     justify-content: space-evenly;
