@@ -134,18 +134,12 @@ const SearchMealsPage = ({ userData }: any) => {
     setIsLoading(false);
   };
 
-  const router = useRouter()
+  const router = useRouter();
 
   console.log(userData);
-  
-
-
 
   useEffect(() => {
     const fetchData = async () => {
-      if (userData == null) {
-        router.push("login")
-      }
       setIsLoading(true);
       setNavOption("search");
       if (meals["meals"] == null) {

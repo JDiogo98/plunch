@@ -120,7 +120,7 @@ export const NavBar = ({ children }: any) => {
               ></SearchSvg>
             </NavBarLinks>
             <NavBarLinks
-              href="/login"
+              href="/myaccount"
               onClick={() => {
                 setNavOption("account"), setAddMealProcess(nullAddMealProcess);
               }}

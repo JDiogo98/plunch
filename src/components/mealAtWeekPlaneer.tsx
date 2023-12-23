@@ -2,7 +2,6 @@ import styled from "styled-components";
 import { PlanMeal } from "./weekmeal";
 import { useGlobalContext } from "../../Context/store";
 import { useRouter } from "next/router";
-import { useState } from "react";
 import { DeleteSvg } from "./deleteSvg";
 import { InfoSvg } from "./infoSvg";
 import { AddSvg } from "./svgAdd";
@@ -77,7 +76,7 @@ export const TDWeekMeal: React.FC<{
   const AddMeal = () => {
     return (
       <TDWeekMealContainer>
-        <div onClick={()=>handleClick()}>
+        <div onClick={() => handleClick()}>
           <AddSvg size={"2rem"}></AddSvg>
         </div>
       </TDWeekMealContainer>
@@ -108,12 +107,10 @@ export const TDWeekMeal: React.FC<{
 
     setUpdatePlans(userData["id"], userData["plans_of_user"]["id"], toSetObjs);
     setSelectedMeal(null);
-    router.push("/dashboard");
   }
 
   return (
     <>
-      {console.log(`${week}_${day}_${meal}` == selectedMeal)}
       {selectedMeal === `${week}_${day}_${meal}` ? (
         <Delete handleDeleteClick={handleDeleteClick} />
       ) : mealName !== null ? (

@@ -21,12 +21,34 @@ const HeyComponentContainer = styled.div`
   flex-direction: column;
 `;
 
-export const HeyComponent = () => {
+interface HeyComponentProps {
+  firstName?: string;
+  fromMyAccount?: boolean;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+export const HeyComponent: React.FC<HeyComponentProps> = ({
+  firstName,
+  fromMyAccount,
+}) => {
   return (
     <>
       <HeyComponentContainer>
-        <BlackLText>{"Hey!"}</BlackLText>
-        <GreyMText>{"Let's cook"}</GreyMText>
+        <BlackLText>{`Hey ${firstName}!`}</BlackLText>
+        {!fromMyAccount && <GreyMText>{"Let's cook"}</GreyMText>}
       </HeyComponentContainer>
     </>
   );

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { hasCookie, setCookie } from "cookies-next";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useGlobalContext } from "../../../Context/store";
 import { TermsAndConditions } from "@/components/termsAndConditions";
@@ -54,18 +54,16 @@ export const BlackSText = styled(BlackXSText)`
 `;
 
 function LogInPage() {
-  const { isAuth, setIsAuth, setNavOption } = useGlobalContext();
+  const { setIsAuth, setNavOption } = useGlobalContext();
   const router = useRouter();
-
-  setNavOption("login");
 
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [request, setRequest] = useState<requestType>(defaultRequest);
 
-  if (hasCookie("authToken")) {
-    router.push("/dashboard");
-  }
+  useEffect(() => {
+    setNavOption("login");
+  }, []);
 
   const onLogInSubmit = async (e: React.FormEvent) => {
     try {

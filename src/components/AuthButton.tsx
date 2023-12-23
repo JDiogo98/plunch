@@ -1,4 +1,5 @@
 import { BlackXSText } from "@/pages/login";
+import Link from "next/link";
 import styled from "styled-components";
 
 export const AuthButtonContainer = styled.button`
@@ -12,6 +13,7 @@ export const AuthButtonContainer = styled.button`
   place-self: center;
   place-items: center;
   border: none;
+  cursor: pointer;
   border-radius: 15px;
   &:hover {
     opacity: 0.6;
@@ -28,7 +30,9 @@ const SignUpIndicator = () => {
   return (
     <BlackXSText>
       {"Doesn't have an account? "}
-      <span style={{ color: "#C8161D" }}>Sign Up</span>
+      <Link href={"/signup"} style={{ textDecoration: "none" }}>
+        <span style={{ color: "#C8161D" }}>Sign Up</span>
+      </Link>
     </BlackXSText>
   );
 };
@@ -36,7 +40,10 @@ const SignUpIndicator = () => {
 const LogInIndicator = () => {
   return (
     <BlackXSText>
-      Already have an account? <span style={{ color: "#C8161D" }}>Login</span>
+      Already have an account?{" "}
+      <Link href={"/login"} style={{ textDecoration: "none" }}>
+        <span style={{ color: "#C8161D" }}>Login</span>
+      </Link>
     </BlackXSText>
   );
 };

@@ -10,6 +10,8 @@ import { useEffect } from "react";
 import { fetchUserData } from "../../../Context/contextAuthFunctions";
 import WeekMeal from "@/components/weekmeal";
 import { useRouter } from "next/router";
+import { Loader } from "@/components/Loader";
+import { Footer } from "@/components/footer";
 
 const GridContainer = styled.div`
   width: 100%;
@@ -59,13 +61,21 @@ export default function WeekGrid({ userData }: any) {
     setSessionWeeks,
     setUserData,
     setAddMealProcess,
+    sessionWeeks,
   } = useGlobalContext();
 
   const router = useRouter();
 
   useEffect(() => {
-    if (userData) {
-      setNavOption("home");
+    setNavOption("home");
+
+    if (userData == null) {
+      setTimeout(() => {
+        router.reload();
+      }, 4000);
+    }
+
+    if (userData !== null) {
       setIsAuth({
         firstName: userData["first_name"],
         lastName: userData["last_name"],
@@ -74,17 +84,24 @@ export default function WeekGrid({ userData }: any) {
       setSessionWeeks(userData["plans_of_user"]["plans"]);
       setUserData(userData);
       setAddMealProcess(nullAddMealProcess);
-    } else {
-      router.push("/login");
     }
   }, [userData]);
 
   return (
     <>
-      {userData?.plans_of_user?.plans && (
-        <GridContainer>
-          <WeekMeal></WeekMeal>
-        </GridContainer>
+      {userData && userData.plans_of_user?.plans ? (
+        <>
+          <GridContainer>
+            <WeekMeal userData={userData}></WeekMeal>
+          </GridContainer>
+        </>
+      ) : (
+        <>
+          <div style={{ marginTop: "300px" }}>
+            <Loader flag={true} />
+            <Footer></Footer>
+          </div>
+        </>
       )}
     </>
   );

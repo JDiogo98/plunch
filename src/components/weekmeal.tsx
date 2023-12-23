@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import dayjs from "dayjs";
 import isoWeek from "dayjs/plugin/isoWeek";
@@ -7,8 +7,9 @@ import isoLeapInYear from "dayjs/plugin/isLeapYear";
 import { TDWeekMeal, TDWeekMealContainer } from "./mealAtWeekPlaneer";
 import { EmptyWeek } from "../../test";
 import { useGlobalContext } from "../../Context/store";
-import { BackSvg } from "../../public/landingImgs/back";
 import { NavBtnSvg } from "../../public/landingImgs/navBtns";
+import { useRouter } from "next/router";
+import { Loader } from "./Loader";
 
 export const TDWeekMealDay = styled(TDWeekMealContainer)`
   background-color: #c8161d;
@@ -121,21 +122,32 @@ type Plan = {
     | undefined;
 };
 
-export default function WeekMeal() {
-  const { setUpdatePlans, sessionWeeks, setSessionWeeks } = useGlobalContext();
+export default function WeekMeal({ userData }: any) {
+  const { setUpdatePlans } = useGlobalContext();
+
+  const [sessionWeeks, setSessionWeeks] = useState(
+    userData["plans_of_user"]["plans"]
+  );
+
+
   const [date, setDate] = useState(dayjs());
   const [weekYear, setWeekYear] = useState(
     date.isoWeek() + "_" + date.format("YY")
   );
 
-  const [selectedMeal, setSelectedMeal] = useState<null | string>(null);
+  const router = useRouter();
 
-  if (sessionWeeks == null || !Object.keys(sessionWeeks).includes(weekYear)) {
-    setSessionWeeks({ ...sessionWeeks, [weekYear]: EmptyWeek });
-  }
+  const [selectedMeal, setSelectedMeal] = useState<null | string>(null);
 
   const [startOfTheWeek, setStartOfTheWeek] = useState(date.startOf("week"));
   const [endOfTheWeek, setEndOfTheWeek] = useState(date.endOf("week"));
+
+  console.log(sessionWeeks);
+
+  if (Object.keys(sessionWeeks).length == 0) {
+    console.log({ [weekYear]: EmptyWeek });
+    setSessionWeeks({ ...sessionWeeks, [weekYear]: EmptyWeek });
+  }
 
   function add1Week() {
     setDate(date.add(1, "week"));
@@ -149,17 +161,19 @@ export default function WeekMeal() {
     setStartOfTheWeek(date.startOf("week"));
     setEndOfTheWeek(date.endOf("week"));
     setWeekYear(date.isoWeek() + "_" + date.format("YY"));
-
     let newWeek = date.isoWeek() + "_" + date.format("YY");
-
     if (!Object.keys(sessionWeeks).includes(newWeek)) {
-      setSessionWeeks({ ...sessionWeeks, [newWeek]: EmptyWeek });
+      const toUpdate = { ...sessionWeeks, [newWeek]: EmptyWeek };
+      setUpdatePlans(userData["id"], userData["plans_of_user"]["id"], toUpdate);
+      setSessionWeeks(toUpdate);
     }
   }
 
+  console.log(userData);
+
   return (
     <>
-      {sessionWeeks && (
+      {sessionWeeks !== null ? (
         <>
           <DateControlContainer>
             <DateDisplay>{`${startOfTheWeek.format(
@@ -180,7 +194,6 @@ export default function WeekMeal() {
               <NavBtnSvg />
             </DisplayControl>
           </DateControlContainer>
-
           <WeekGridDiv>
             <thead>
               <tr>
@@ -203,7 +216,7 @@ export default function WeekMeal() {
                   meal="brk"
                   selectedMeal={selectedMeal}
                   setSelectedMeal={setSelectedMeal}
-                  m={sessionWeeks[weekYear]["w_1"]["brk"]}
+                  m={sessionWeeks?.[weekYear]?.["w_1"]?.["brk"]}
                 ></TDWeekMeal>
                 <TDWeekMeal
                   day="w_1"
@@ -211,7 +224,7 @@ export default function WeekMeal() {
                   meal="lun"
                   selectedMeal={selectedMeal}
                   setSelectedMeal={setSelectedMeal}
-                  m={sessionWeeks[weekYear]["w_1"]["lun"]}
+                  m={sessionWeeks?.[weekYear]?.["w_1"]?.["lun"]}
                 ></TDWeekMeal>
                 <TDWeekMeal
                   day="w_1"
@@ -219,7 +232,7 @@ export default function WeekMeal() {
                   meal="din"
                   selectedMeal={selectedMeal}
                   setSelectedMeal={setSelectedMeal}
-                  m={sessionWeeks[weekYear]["w_1"]["din"]}
+                  m={sessionWeeks?.[weekYear]?.["w_1"]?.["din"]}
                 ></TDWeekMeal>
               </tr>
               <tr>
@@ -234,7 +247,7 @@ export default function WeekMeal() {
                   meal="brk"
                   selectedMeal={selectedMeal}
                   setSelectedMeal={setSelectedMeal}
-                  m={sessionWeeks[weekYear]["w_2"]["brk"]}
+                  m={sessionWeeks?.[weekYear]?.["w_2"]?.["brk"]}
                 ></TDWeekMeal>
                 <TDWeekMeal
                   day="w_2"
@@ -242,7 +255,7 @@ export default function WeekMeal() {
                   meal="lun"
                   selectedMeal={selectedMeal}
                   setSelectedMeal={setSelectedMeal}
-                  m={sessionWeeks[weekYear]["w_2"]["lun"]}
+                  m={sessionWeeks?.[weekYear]?.["w_2"]?.["lun"]}
                 ></TDWeekMeal>
                 <TDWeekMeal
                   day="w_2"
@@ -250,7 +263,7 @@ export default function WeekMeal() {
                   meal="din"
                   selectedMeal={selectedMeal}
                   setSelectedMeal={setSelectedMeal}
-                  m={sessionWeeks[weekYear]["w_2"]["din"]}
+                  m={sessionWeeks?.[weekYear]?.["w_2"]?.["din"]}
                 ></TDWeekMeal>
               </tr>
               <tr>
@@ -265,7 +278,7 @@ export default function WeekMeal() {
                   meal="brk"
                   selectedMeal={selectedMeal}
                   setSelectedMeal={setSelectedMeal}
-                  m={sessionWeeks[weekYear]["w_3"]["brk"]}
+                  m={sessionWeeks?.[weekYear]?.["w_3"]?.["brk"]}
                 ></TDWeekMeal>
                 <TDWeekMeal
                   day="w_3"
@@ -273,7 +286,7 @@ export default function WeekMeal() {
                   meal="lun"
                   selectedMeal={selectedMeal}
                   setSelectedMeal={setSelectedMeal}
-                  m={sessionWeeks[weekYear]["w_3"]["lun"]}
+                  m={sessionWeeks?.[weekYear]?.["w_3"]?.["lun"]}
                 ></TDWeekMeal>
                 <TDWeekMeal
                   day="w_3"
@@ -281,7 +294,7 @@ export default function WeekMeal() {
                   meal="din"
                   selectedMeal={selectedMeal}
                   setSelectedMeal={setSelectedMeal}
-                  m={sessionWeeks[weekYear]["w_3"]["din"]}
+                  m={sessionWeeks?.[weekYear]?.["w_3"]?.["din"]}
                 ></TDWeekMeal>
               </tr>
               <tr>
@@ -296,7 +309,7 @@ export default function WeekMeal() {
                   meal="brk"
                   selectedMeal={selectedMeal}
                   setSelectedMeal={setSelectedMeal}
-                  m={sessionWeeks[weekYear]["w_4"]["brk"]}
+                  m={sessionWeeks?.[weekYear]?.["w_4"]?.["brk"]}
                 ></TDWeekMeal>
                 <TDWeekMeal
                   day="w_4"
@@ -304,7 +317,7 @@ export default function WeekMeal() {
                   meal="lun"
                   selectedMeal={selectedMeal}
                   setSelectedMeal={setSelectedMeal}
-                  m={sessionWeeks[weekYear]["w_4"]["lun"]}
+                  m={sessionWeeks?.[weekYear]?.["w_4"]?.["lun"]}
                 ></TDWeekMeal>
                 <TDWeekMeal
                   day="w_4"
@@ -312,7 +325,7 @@ export default function WeekMeal() {
                   meal="din"
                   selectedMeal={selectedMeal}
                   setSelectedMeal={setSelectedMeal}
-                  m={sessionWeeks[weekYear]["w_4"]["din"]}
+                  m={sessionWeeks?.[weekYear]?.["w_4"]?.["din"]}
                 ></TDWeekMeal>
               </tr>
               <tr>
@@ -327,7 +340,7 @@ export default function WeekMeal() {
                   meal="brk"
                   selectedMeal={selectedMeal}
                   setSelectedMeal={setSelectedMeal}
-                  m={sessionWeeks[weekYear]["w_5"]["brk"]}
+                  m={sessionWeeks?.[weekYear]?.["w_5"]?.["brk"]}
                 ></TDWeekMeal>
                 <TDWeekMeal
                   day="w_5"
@@ -335,7 +348,7 @@ export default function WeekMeal() {
                   meal="lun"
                   selectedMeal={selectedMeal}
                   setSelectedMeal={setSelectedMeal}
-                  m={sessionWeeks[weekYear]["w_5"]["lun"]}
+                  m={sessionWeeks?.[weekYear]?.["w_5"]?.["lun"]}
                 ></TDWeekMeal>
                 <TDWeekMeal
                   day="w_5"
@@ -343,7 +356,7 @@ export default function WeekMeal() {
                   meal="din"
                   selectedMeal={selectedMeal}
                   setSelectedMeal={setSelectedMeal}
-                  m={sessionWeeks[weekYear]["w_5"]["din"]}
+                  m={sessionWeeks?.[weekYear]?.["w_5"]?.["din"]}
                 ></TDWeekMeal>
               </tr>
               <tr>
@@ -358,7 +371,7 @@ export default function WeekMeal() {
                   meal="brk"
                   selectedMeal={selectedMeal}
                   setSelectedMeal={setSelectedMeal}
-                  m={sessionWeeks[weekYear]["w_6"]["brk"]}
+                  m={sessionWeeks?.[weekYear]?.["w_6"]?.["brk"]}
                 ></TDWeekMeal>
                 <TDWeekMeal
                   day="w_6"
@@ -366,7 +379,7 @@ export default function WeekMeal() {
                   meal="lun"
                   selectedMeal={selectedMeal}
                   setSelectedMeal={setSelectedMeal}
-                  m={sessionWeeks[weekYear]["w_6"]["lun"]}
+                  m={sessionWeeks?.[weekYear]?.["w_6"]?.["lun"]}
                 ></TDWeekMeal>
                 <TDWeekMeal
                   day="w_6"
@@ -374,7 +387,7 @@ export default function WeekMeal() {
                   meal="din"
                   selectedMeal={selectedMeal}
                   setSelectedMeal={setSelectedMeal}
-                  m={sessionWeeks[weekYear]["w_6"]["din"]}
+                  m={sessionWeeks?.[weekYear]?.["w_6"]?.["din"]}
                 ></TDWeekMeal>
               </tr>
               <tr>
@@ -389,7 +402,7 @@ export default function WeekMeal() {
                   meal="brk"
                   selectedMeal={selectedMeal}
                   setSelectedMeal={setSelectedMeal}
-                  m={sessionWeeks[weekYear]["w_7"]["brk"]}
+                  m={sessionWeeks?.[weekYear]?.["w_7"]?.["brk"]}
                 ></TDWeekMeal>
                 <TDWeekMeal
                   day="w_7"
@@ -397,7 +410,7 @@ export default function WeekMeal() {
                   meal="lun"
                   selectedMeal={selectedMeal}
                   setSelectedMeal={setSelectedMeal}
-                  m={sessionWeeks[weekYear]["w_7"]["lun"]}
+                  m={sessionWeeks?.[weekYear]?.["w_7"]?.["lun"]}
                 ></TDWeekMeal>
                 <TDWeekMeal
                   day="w_7"
@@ -405,12 +418,14 @@ export default function WeekMeal() {
                   meal="din"
                   selectedMeal={selectedMeal}
                   setSelectedMeal={setSelectedMeal}
-                  m={sessionWeeks[weekYear]["w_7"]["din"]}
+                  m={sessionWeeks?.[weekYear]?.["w_7"]?.["din"]}
                 ></TDWeekMeal>
               </tr>
             </tbody>
           </WeekGridDiv>
         </>
+      ) : (
+        <Loader flag={true} />
       )}
     </>
   );

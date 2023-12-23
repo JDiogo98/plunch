@@ -4,10 +4,13 @@ import { Footer } from "@/components/footer";
 import { useGlobalContext } from "../../Context/store";
 
 export default function LandingPage() {
-  const { setNavOption, userData } = useGlobalContext();
+  const { setNavOption } = useGlobalContext();
 
-  setNavOption("landing");
+  useEffect(() => {
+    setNavOption("landing");
+  }, []);
 
+  
   return (
     <>
       <link rel="stylesheet" href="https://fonts.cdnfonts.com/css/geomanist" />

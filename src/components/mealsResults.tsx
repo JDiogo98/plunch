@@ -73,6 +73,7 @@ export const MealsResults = ({ meal }: any) => {
     sessionWeeks,
     setUpdatePlans,
     userData,
+    setSessionWeeks,
   } = useGlobalContext();
 
   const router = useRouter();
@@ -92,9 +93,13 @@ export const MealsResults = ({ meal }: any) => {
       name: meal["strMeal"],
     };
 
-    setUpdatePlans(userData["id"], userData["plans_of_user"]["id"], toSetObjs);
     setAddMealProcess(nullAddMealProcess);
-    router.push("/dashboard").then(() => window.location.reload());
+    setSessionWeeks(toSetObjs);
+    setUpdatePlans(userData["id"], userData["plans_of_user"]["id"], toSetObjs);
+
+    setTimeout(() => {
+      router.push("/dashboard");
+    }, 500);
   }
 
   return (

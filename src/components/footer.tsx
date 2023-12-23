@@ -20,7 +20,7 @@ const LandingFooter = styled.footer`
   @media (min-width: 1199px) {
     flex-direction: row;
     justify-content: space-evenly;
-    transform: translateY(20%)
+    transform: translateY(20%);
   }
 `;
 
