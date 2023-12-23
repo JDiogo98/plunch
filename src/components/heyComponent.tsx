@@ -26,20 +26,6 @@ interface HeyComponentProps {
   fromMyAccount?: boolean;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 export const HeyComponent: React.FC<HeyComponentProps> = ({
   firstName,
   fromMyAccount,
@@ -47,7 +33,8 @@ export const HeyComponent: React.FC<HeyComponentProps> = ({
   return (
     <>
       <HeyComponentContainer>
-        <BlackLText>{`Hey ${firstName}!`}</BlackLText>
+        {firstName ? <BlackLText>{`Hey ${firstName}!`}</BlackLText> : <BlackLText>{`Hey, welcome!`}</BlackLText>}
+
         {!fromMyAccount && <GreyMText>{"Let's cook"}</GreyMText>}
       </HeyComponentContainer>
     </>
