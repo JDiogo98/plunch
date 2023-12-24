@@ -12,11 +12,13 @@ const LandingFooter = styled.footer`
   display: flex;
   flex-direction: column;
   align-items: center;
+  bottom: 0;
   width: calc(100% - 30px);
   background-color: #c8161d;
   color: #ffffff;
   padding: 15px;
   margin-top: 50px;
+
   @media (min-width: 1199px) {
     flex-direction: row;
     justify-content: space-evenly;

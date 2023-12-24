@@ -10,6 +10,7 @@ import { useGlobalContext } from "../../Context/store";
 import { NavBtnSvg } from "../../public/landingImgs/navBtns";
 import { useRouter } from "next/router";
 import { Loader } from "./Loader";
+import { Footer } from "./footer";
 
 export const TDWeekMealDay = styled(TDWeekMealContainer)`
   background-color: #c8161d;
@@ -83,7 +84,6 @@ const DateDisplay = styled.div`
 `;
 
 const DisplayControl = styled.div`
-  background-color: #ffffff;
   color: #c8161d;
   border-radius: 15px;
   font-size: 18px;
@@ -128,7 +128,6 @@ export default function WeekMeal({ userData }: any) {
   const [sessionWeeks, setSessionWeeks] = useState(
     userData["plans_of_user"]["plans"]
   );
-
 
   const [date, setDate] = useState(dayjs());
   const [weekYear, setWeekYear] = useState(

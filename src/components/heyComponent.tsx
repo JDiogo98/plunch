@@ -33,7 +33,11 @@ export const HeyComponent: React.FC<HeyComponentProps> = ({
   return (
     <>
       <HeyComponentContainer>
-        {firstName ? <BlackLText>{`Hey ${firstName}!`}</BlackLText> : <BlackLText>{`Hey, welcome!`}</BlackLText>}
+        {firstName ? (
+          <BlackLText>{`Hey ${firstName}!`}</BlackLText>
+        ) : (
+          <BlackLText>{`Hey, welcome!`}</BlackLText>
+        )}
 
         {!fromMyAccount && <GreyMText>{"Let's cook"}</GreyMText>}
       </HeyComponentContainer>

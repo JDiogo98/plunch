@@ -15,11 +15,12 @@ import { fetchUserData } from "../../../Context/contextAuthFunctions";
 import cookie from "cookie";
 import { GetServerSidePropsContext } from "next";
 import { useRouter } from "next/router";
+import { Backgroud } from "@/components/background";
 
 const SearchPageContainer = styled.div`
   display: flex;
-  position: fixed;
   flex-direction: column;
+  background-color: #ffffff;
   padding: 1rem;
   height: 100%;
   width: 92%;
@@ -54,6 +55,7 @@ const ResultsContainer = styled.div`
   overflow-y: scroll;
   padding: 0.56em;
   margin-bottom: 90px;
+  max-height: 500px;
   &::-webkit-scrollbar-track {
     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
     border-radius: 10px;
@@ -157,6 +159,7 @@ const SearchMealsPage = ({ userData }: any) => {
 
   return (
     <>
+      <Backgroud></Backgroud>
       <div style={{ display: "flex", width: "100%", justifyContent: "center" }}>
         <SearchPageContainer>
           <form onSubmit={(e) => handleSearch(e)}>

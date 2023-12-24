@@ -11,13 +11,13 @@ import { fetchUserData } from "../../../Context/contextAuthFunctions";
 import WeekMeal from "@/components/weekmeal";
 import { useRouter } from "next/router";
 import { Loader } from "@/components/Loader";
-import { Footer } from "@/components/footer";
+import { Backgroud } from "@/components/background";
 
 const GridContainer = styled.div`
   width: 100%;
   margin: auto;
-  max-width: 1000px;
-  margin-top: 100px;
+  max-width: 900px;
+  margin-top: 140px;
 `;
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
@@ -61,7 +61,6 @@ export default function WeekGrid({ userData }: any) {
     setSessionWeeks,
     setUserData,
     setAddMealProcess,
-    sessionWeeks,
   } = useGlobalContext();
 
   const router = useRouter();
@@ -91,6 +90,7 @@ export default function WeekGrid({ userData }: any) {
     <>
       {userData && userData.plans_of_user?.plans ? (
         <>
+          <Backgroud></Backgroud>
           <GridContainer>
             <WeekMeal userData={userData}></WeekMeal>
           </GridContainer>
@@ -99,7 +99,6 @@ export default function WeekGrid({ userData }: any) {
         <>
           <div style={{ marginTop: "300px" }}>
             <Loader flag={true} />
-            <Footer></Footer>
           </div>
         </>
       )}

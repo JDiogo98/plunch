@@ -8,6 +8,7 @@ import { BackSvg } from "../../public/landingImgs/back";
 import { LogOutSvg } from "./svgLogout";
 import { deleteCookie } from "cookies-next";
 import { useRouter } from "next/router";
+import { Footer } from "./footer";
 
 const NavContainer = styled.div`
   width: 100%;
@@ -31,6 +32,8 @@ const NavBottomContainer = styled.nav`
 const NavTopContainer = styled(NavBottomContainer)`
   top: 0;
   position: absolute;
+  background-color: #ffffff;
+  z-index: 5;
   width: 100%;
   max-height: 50px;
   box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
@@ -38,14 +41,23 @@ const NavTopContainer = styled(NavBottomContainer)`
   margin: 0 auto 1rem auto;
   padding-bottom: 0px;
   padding-bottom: 0px;
-  padding-top: 25px;
+  padding-top: 5px;
+  padding-bottom: 5px;
   place-items: center;
   place-self: center;
-  background: none;
+  /* background: none; */
 `;
 const NavBarLinks = styled(Link)`
   &:hover {
     opacity: 0.4;
+  }
+`;
+
+export const FooterContainer = styled.div`
+  margin-bottom: 70px;
+
+  @media (min-width: 1100px) {
+    margin-bottom: 90px;
   }
 `;
 
@@ -85,53 +97,59 @@ export const NavBar = ({ children }: any) => {
   return (
     <>
       {NavFlag ? (
-        <NavContainer>
-          {children}
-          <NavTopContainer>
-            <div onClick={() => handleBackButton()}>
-              <BackSvg></BackSvg>
-            </div>
-            <p></p>
-            <div onClick={() => setLogOut()}>
-              <LogOutSvg></LogOutSvg>
-            </div>
-          </NavTopContainer>
-          <NavBottomContainer>
-            <NavBarLinks
-              href="/dashboard"
-              onClick={() => {
-                setNavOption("home"), setAddMealProcess(nullAddMealProcess);
-              }}
-            >
-              <HomeSvg
-                color={navOption === "home" ? "#c8161d" : "#757575"}
-                size={"3rem"}
-              ></HomeSvg>
-            </NavBarLinks>
-            <NavBarLinks
-              href="/meals"
-              onClick={() => {
-                setNavOption("search"), setAddMealProcess(nullAddMealProcess);
-              }}
-            >
-              <SearchSvg
-                color={navOption === "search" ? "#c8161d" : "#757575"}
-                size={"2.4rem"}
-              ></SearchSvg>
-            </NavBarLinks>
-            <NavBarLinks
-              href="/myaccount"
-              onClick={() => {
-                setNavOption("account"), setAddMealProcess(nullAddMealProcess);
-              }}
-            >
-              <AccountSvg
-                size={"2rem"}
-                color={navOption === "account" ? "#c8161d" : "#757575"}
-              ></AccountSvg>
-            </NavBarLinks>
-          </NavBottomContainer>
-        </NavContainer>
+        <>
+          <NavContainer>
+            {children}
+            <NavTopContainer>
+              <div onClick={() => handleBackButton()}>
+                <BackSvg></BackSvg>
+              </div>
+              <p></p>
+              <div onClick={() => setLogOut()}>
+                <LogOutSvg></LogOutSvg>
+              </div>
+            </NavTopContainer>
+            <FooterContainer>
+              <Footer></Footer>
+            </FooterContainer>
+            <NavBottomContainer>
+              <NavBarLinks
+                href="/dashboard"
+                onClick={() => {
+                  setNavOption("home"), setAddMealProcess(nullAddMealProcess);
+                }}
+              >
+                <HomeSvg
+                  color={navOption === "home" ? "#c8161d" : "#757575"}
+                  size={"3rem"}
+                ></HomeSvg>
+              </NavBarLinks>
+              <NavBarLinks
+                href="/meals"
+                onClick={() => {
+                  setNavOption("search"), setAddMealProcess(nullAddMealProcess);
+                }}
+              >
+                <SearchSvg
+                  color={navOption === "search" ? "#c8161d" : "#757575"}
+                  size={"2.4rem"}
+                ></SearchSvg>
+              </NavBarLinks>
+              <NavBarLinks
+                href="/myaccount"
+                onClick={() => {
+                  setNavOption("account"),
+                    setAddMealProcess(nullAddMealProcess);
+                }}
+              >
+                <AccountSvg
+                  size={"2rem"}
+                  color={navOption === "account" ? "#c8161d" : "#757575"}
+                ></AccountSvg>
+              </NavBarLinks>
+            </NavBottomContainer>
+          </NavContainer>
+        </>
       ) : (
         children
       )}

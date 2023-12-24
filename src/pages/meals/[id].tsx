@@ -5,10 +5,13 @@ import { Ingredient } from "@/components/Ingredient";
 import { Instructions } from "@/components/Instructions";
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
 import { useGlobalContext } from "../../../Context/store";
+import { Backgroud } from "@/components/background";
 
 const MealsRecipeContainer = styled.div`
   padding: 2rem;
   max-width: 700px;
+  background-color: #ffffff;
+  border-radius: 15px;
   margin: auto;
   height: 100%;
   width: calc(100% - 4rem);
@@ -90,6 +93,8 @@ export const MealRecipe = ({ MealData }: any) => {
   return (
     <>
       {MealData && (
+        <>
+        <Backgroud></Backgroud>
         <MealsRecipeContainer>
           <MealsRecipeImage
             src={MealData["strMealThumb"]}
@@ -104,6 +109,7 @@ export const MealRecipe = ({ MealData }: any) => {
           </MealIngredients>
           <Instructions inst={MealData["strInstructions"]}></Instructions>
         </MealsRecipeContainer>
+      </>
       )}
     </>
   );
