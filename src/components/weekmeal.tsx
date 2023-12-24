@@ -88,7 +88,7 @@ const DisplayControl = styled.div`
   border-radius: 15px;
   font-size: 18px;
   font-weight: 600;
-  /* box-shadow: rgba(0, 0, 0, 0.225) 0px 5px 15px; */
+  display: flex;
   grid-area: btn;
 `;
 
@@ -168,8 +168,6 @@ export default function WeekMeal({ userData }: any) {
     }
   }
 
-  console.log(userData);
-
   return (
     <>
       {sessionWeeks !== null ? (
@@ -182,13 +180,21 @@ export default function WeekMeal({ userData }: any) {
               onClick={() => {
                 sub1Week();
               }}
-              style={{ gridArea: "backBtn" }}
+              style={{
+                gridArea: "backBtn",
+                alignItems: "end",
+                justifyContent: "end",
+              }}
             >
               <NavBtnSvg />
             </DisplayControl>
             <DisplayControl
               onClick={() => add1Week()}
-              style={{ gridArea: "frontBtn", transform: "rotate(180deg)" }}
+              style={{
+                gridArea: "frontBtn",
+                transform: "rotate(180deg)",
+                justifyContent: "end",
+              }}
             >
               <NavBtnSvg />
             </DisplayControl>

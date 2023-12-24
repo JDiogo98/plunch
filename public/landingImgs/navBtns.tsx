@@ -7,13 +7,14 @@ export const NavBtnSvg = () => {
         width="2rem"
         height="2rem"
         style={{
-          padding: "5px 25px 5px 25px",
+          padding: "5px 15px 5px 15px",
           aspectRatio: "1/1",
           boxShadow: "0px 0px 15px rgba(0, 0, 0, 0.15)",
           borderRadius: "10px",
           backgroundColor: "#ffffff",
         }}
         viewBox="0 0 1125 1051"
+
         fill="#252525"
         className="icon"
         version="1.1"
