@@ -10,7 +10,6 @@ export default function LandingPage() {
     setNavOption("landing");
   }, []);
 
-  
   return (
     <>
       <link rel="stylesheet" href="https://fonts.cdnfonts.com/css/geomanist" />

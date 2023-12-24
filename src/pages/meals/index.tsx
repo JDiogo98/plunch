@@ -23,6 +23,7 @@ const SearchPageContainer = styled.div`
   background-color: #ffffff;
   padding: 1rem;
   height: 100%;
+  border-radius: 15px;
   width: 92%;
   max-width: 700px;
   margin: auto;

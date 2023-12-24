@@ -120,14 +120,12 @@ const LandingText = styled.h1`
     font-size: 24px;
   }
 `;
-const LandingButtonLogIn = styled.button`
+const LandingButton = styled.button`
   background-color: #c8161d;
   color: #ffffff;
   border: none;
-  margin: 20px;
-  padding: 1rem;
   width: 100%;
-  margin: 0 1rem 0 1rem;
+  padding: 15px;
   font-family: "Geomanist", sans-serif;
   border-radius: 25px;
   font-size: 19px;
@@ -136,10 +134,9 @@ const LandingButtonLogIn = styled.button`
     font-size: 28px;
   }
 `;
-const LandingButtonSignUp = styled(LandingButtonLogIn)`
-  /* margin: 2rem; */
-  /* width: 100%; */
-`;
+
+
+
 const LandingLogo = styled(Image)`
   width: 100%;
   height: auto;
@@ -181,26 +178,22 @@ export default function Banner() {
           <Link
             href={"/login"}
             style={{
-              all: "unset",
-              marginTop: "1rem",
-              width: "calc(100% - 1rem)",
-              justifyItems: "start",
+              padding: "15px",
+              margin: "0",
+              width: "100%",
             }}
           >
-            Log In
-            <LandingButtonLogIn>Log In</LandingButtonLogIn>
+            <LandingButton  >Log In</LandingButton>
           </Link>
-
           <Link
             href={"/signup"}
             style={{
-              all: "unset",
-              marginTop: "1rem",
-              width: "calc(100% - 1rem)",
-              justifyItems: "start",
+              padding: "15px",
+              margin: "0",
+              width: "100%",
             }}
           >
-            <LandingButtonSignUp>Sign Up</LandingButtonSignUp>
+            <LandingButton>Sign Up</LandingButton>
           </Link>
         </ElementsContainer>
       </BannerContainer>

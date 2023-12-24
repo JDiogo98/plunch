@@ -45,8 +45,6 @@ interface RecipeInstruction {
 }
 
 export const Instructions = (inst: RecipeInstruction) => {
-  console.log(inst);
-
   return (
     <>
       {inst && (

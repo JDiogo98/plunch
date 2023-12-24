@@ -6,6 +6,7 @@ import { Instructions } from "@/components/Instructions";
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
 import { useGlobalContext } from "../../../Context/store";
 import { Backgroud } from "@/components/background";
+import { use, useEffect } from "react";
 
 const MealsRecipeContainer = styled.div`
   padding: 2rem;
@@ -87,29 +88,32 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
 export const MealRecipe = ({ MealData }: any) => {
   const { setNavOption } = useGlobalContext();
+  const { strMealThumb, strMeal, strInstructions } = MealData;
 
-  setNavOption("meal");
+  useEffect(() => {
+    setNavOption("meal");
+  }, []);
 
   return (
     <>
       {MealData && (
         <>
-        <Backgroud></Backgroud>
-        <MealsRecipeContainer>
-          <MealsRecipeImage
-            src={MealData["strMealThumb"]}
-            alt={"error at MealsRecipeImage"}
-          ></MealsRecipeImage>
-          <MealsRecipeTitle>{MealData["strMeal"]}</MealsRecipeTitle>
-          <MealIngredients>
-            {MealData &&
-              splitIngredients(MealData).map((i: any) => {
-                return <Ingredient ing={i} key={i}></Ingredient>;
-              })}
-          </MealIngredients>
-          <Instructions inst={MealData["strInstructions"]}></Instructions>
-        </MealsRecipeContainer>
-      </>
+          <Backgroud></Backgroud>
+          <MealsRecipeContainer>
+            <MealsRecipeImage
+              src={strMealThumb}
+              alt={"error at MealsRecipeImage"}
+            ></MealsRecipeImage>
+            <MealsRecipeTitle>{strMeal}</MealsRecipeTitle>
+            <MealIngredients>
+              {MealData &&
+                splitIngredients(MealData).map((i: any) => {
+                  return <Ingredient ing={i} key={i}></Ingredient>;
+                })}
+            </MealIngredients>
+            <Instructions inst={strInstructions}></Instructions>
+          </MealsRecipeContainer>
+        </>
       )}
     </>
   );

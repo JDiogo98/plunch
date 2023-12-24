@@ -54,7 +54,6 @@ const MealAreaName = styled(MealCategoryName)`
 
 const MealAddBtnContainer = styled.div`
   margin-bottom: 20px;
-  padding: 1rem;
   border-radius: 0px 15px 15px 0px;
   align-items: center;
   z-index: 3;
@@ -76,21 +75,24 @@ export const MealsResults = ({ meal }: any) => {
     setSessionWeeks,
   } = useGlobalContext();
 
+  const { idMeal, strMealThumb, strMeal, strCategory, strArea } = meal;
+  const { currentDay, selectedMeal, currentWeek } = addMealProcess;
+
   const router = useRouter();
 
   function handleAddClick() {
-    const cWeek = addMealProcess?.currentWeek;
-    const cDay = addMealProcess?.currentDay;
-    const cMeal = addMealProcess?.selectedMeal;
+    const cWeek = currentWeek;
+    const cDay = currentDay;
+    const cMeal = selectedMeal;
 
     console.log(cWeek, cDay, cMeal);
 
     const toSetObjs = { ...sessionWeeks };
 
     toSetObjs[cWeek][cDay][cMeal] = {
-      id: meal["idMeal"],
-      img: meal["strMealThumb"],
-      name: meal["strMeal"],
+      id: idMeal,
+      img: strMealThumb,
+      name: strMeal,
     };
 
     setAddMealProcess(nullAddMealProcess);
@@ -112,22 +114,22 @@ export const MealsResults = ({ meal }: any) => {
         }}
       >
         <Link
-          href={`/meals/${meal["idMeal"]}`}
+          href={`/meals/${idMeal}`}
           style={{ textDecoration: "none", width: "80%" }}
         >
           <MealResultContainer>
             <MealResultImage
-              src={meal["strMealThumb"]}
+              src={strMealThumb}
               alt="error"
               width={120}
               height={120}
             ></MealResultImage>
-            <MealResultName>{meal["strMeal"]}</MealResultName>
-            <MealCategoryName>{meal["strCategory"]}</MealCategoryName>
-            <MealAreaName>{meal["strArea"]}</MealAreaName>
+            <MealResultName>{strMeal}</MealResultName>
+            <MealCategoryName>{strCategory}</MealCategoryName>
+            <MealAreaName>{strArea}</MealAreaName>
           </MealResultContainer>
         </Link>
-        {addMealProcess["currentDay"] && (
+        {currentDay && (
           <MealAddBtnContainer>
             <AddContainer onClick={() => handleAddClick()}>
               <AddSvg size={"4rem"}></AddSvg>
