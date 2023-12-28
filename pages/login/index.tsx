@@ -3,14 +3,14 @@ import { hasCookie, setCookie } from "cookies-next";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { useGlobalContext } from "../../../Context/store";
 import { TermsAndConditions } from "@/components/termsAndConditions";
 import { AuthButton } from "@/components/AuthButton";
-import { AuthInput } from "@/components/AuthInput";
 import { BlackXLText } from "@/components/BlackXLText";
-import { HeyComponent } from "@/components/heyComponent";
+import HeyComponent from "@/components/heyComponent";
 import { Loader } from "@/components/Loader";
 import { FeedBackText } from "@/components/feedbackText";
+import { useGlobalContext } from "../../Context/store";
+import AuthInput from "@/components/AuthInput";
 
 export const AuthContainer = styled.div`
   width: calc(100% - 4rem);
@@ -55,11 +55,12 @@ export const BlackSText = styled(BlackXSText)`
 
 function LogInPage() {
   const { setIsAuth, setNavOption } = useGlobalContext();
-  const router = useRouter();
 
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [request, setRequest] = useState<requestType>(defaultRequest);
+
+  const router = useRouter();
 
   useEffect(() => {
     setNavOption("login");

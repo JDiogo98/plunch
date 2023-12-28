@@ -23,11 +23,10 @@ const TextContainer = styled.div`
   text-align: start;
 `;
 
-export const AuthInput = ({ text, onChange }: any) => {
+const AuthInput = ({ text, onChange }: any) => {
   // const [inputText, setInputText] = useState("");
   const type =
     text == "Password:" ? "password" : text == "E-mail" ? "email" : "text";
-
 
   return (
     <>
@@ -40,3 +39,5 @@ export const AuthInput = ({ text, onChange }: any) => {
     </>
   );
 };
+
+export default AuthInput;

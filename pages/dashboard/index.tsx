@@ -1,17 +1,13 @@
 import styled from "styled-components";
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
 import cookie from "cookie";
-import {
-  GlobalContextProvider,
-  nullAddMealProcess,
-  useGlobalContext,
-} from "../../../Context/store";
 import { useEffect } from "react";
-import { fetchUserData } from "../../../Context/contextAuthFunctions";
 import WeekMeal from "@/components/weekmeal";
 import { useRouter } from "next/router";
 import { Loader } from "@/components/Loader";
 import { Backgroud } from "@/components/background";
+import { fetchUserData } from "../../Context/contextAuthFunctions";
+import { nullAddMealProcess, useGlobalContext } from "../../Context/store";
 
 const GridContainer = styled.div`
   width: 100%;

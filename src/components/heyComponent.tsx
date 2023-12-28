@@ -26,7 +26,7 @@ interface HeyComponentProps {
   fromMyAccount?: boolean;
 }
 
-export const HeyComponent: React.FC<HeyComponentProps> = ({
+const HeyComponent: React.FC<HeyComponentProps> = ({
   firstName,
   fromMyAccount,
 }) => {
@@ -44,3 +44,5 @@ export const HeyComponent: React.FC<HeyComponentProps> = ({
     </>
   );
 };
+
+export default HeyComponent;

@@ -1,12 +1,12 @@
 import styled from "styled-components";
-import { getMealRecipe, splitIngredients } from "../../../public/mealFunctions";
 
 import { Ingredient } from "@/components/Ingredient";
 import { Instructions } from "@/components/Instructions";
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
-import { useGlobalContext } from "../../../Context/store";
 import { Backgroud } from "@/components/background";
 import { use, useEffect } from "react";
+import { getMealRecipe, splitIngredients } from "./mealFunctions";
+import { useGlobalContext } from "../../Context/store";
 
 const MealsRecipeContainer = styled.div`
   padding: 2rem;

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
-import Banner from "../components/landing";
 import { Footer } from "@/components/footer";
-import { useGlobalContext } from "../../Context/store";
+import { useGlobalContext } from "../Context/store";
+import Banner from "@/components/landing";
 
 export default function LandingPage() {
   const { setNavOption } = useGlobalContext();

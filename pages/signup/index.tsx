@@ -10,7 +10,7 @@ import { Loader } from "@/components/Loader";
 import { FeedBackText } from "@/components/feedbackText";
 import { setCookie } from "cookies-next";
 import { useRouter } from "next/router";
-import { useGlobalContext } from "../../../Context/store";
+import { useGlobalContext } from "../../Context/store";
 
 export default function LogInPage() {
   const [email, setEmail] = useState<string>("");

@@ -1,9 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
+  reactStrictMode: false,
   compiler: { styledComponents: true },
   images: {
-    domains: ['www.themealdb.com'],
+    domains: ["www.themealdb.com"],
   },
 };
 

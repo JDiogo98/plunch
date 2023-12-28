@@ -1,21 +1,18 @@
 import styled from "styled-components";
-import { SearchSvg } from "../../../public/landingImgs/searchSvg";
 import { FormEvent, useEffect, useState } from "react";
-import {
-  GlobalContextProvider,
-  useGlobalContext,
-} from "../../../Context/store";
-import { MealsResults } from "@/components/mealsResults";
 import { NoResultsMessage } from "@/components/noResults";
 import { AddSvg } from "@/components/svgAdd";
 import { Loader } from "@/components/Loader";
-import { addingTo } from "../../../public/mealFunctions";
 import { BlackMText } from "@/components/textsAndSizes";
-import { fetchUserData } from "../../../Context/contextAuthFunctions";
 import cookie from "cookie";
 import { GetServerSidePropsContext } from "next";
 import { useRouter } from "next/router";
 import { Backgroud } from "@/components/background";
+import { fetchUserData } from "../../Context/contextAuthFunctions";
+import { useGlobalContext } from "../../Context/store";
+import { SearchSvg } from "../../public/landingImgs/searchSvg";
+import { addingTo } from "./mealFunctions";
+import { MealsResults } from "@/components/mealsResults";
 
 const SearchPageContainer = styled.div`
   display: flex;
@@ -136,10 +133,6 @@ const SearchMealsPage = ({ userData }: any) => {
     await getSearchMeals(searchTerm);
     setIsLoading(false);
   };
-
-  const router = useRouter();
-
-  console.log(userData);
 
   useEffect(() => {
     const fetchData = async () => {

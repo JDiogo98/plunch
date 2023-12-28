@@ -1,6 +1,6 @@
-import { BlackXSText } from "@/pages/login";
 import Link from "next/link";
 import styled from "styled-components";
+import { BlackXSText } from "../../pages/login";
 
 export const AuthButtonContainer = styled.button`
   color: #ffffff;

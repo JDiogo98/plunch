@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Meal } from "../Context/SearchTypes";
+import { Meal } from "../../Context/SearchTypes";
 import dayjs from "dayjs";
 
 export async function getMealRecipe(id: string | string[] | undefined) {
@@ -12,7 +12,7 @@ export async function getMealRecipe(id: string | string[] | undefined) {
   } catch (error) {
     console.log("Error at getting recipe", error);
   }
-}                           
+}
 
 export function splitIngredients(list: Meal) {
   const Ingredients = Object.entries(list);
@@ -28,9 +28,6 @@ export function splitIngredients(list: Meal) {
 
   return returnList;
 }
-
-const weekD = "w_7";
-const weekY = "50_23";
 
 var weekOfYear: any = require("dayjs/plugin/weekOfYear");
 dayjs.extend(weekOfYear);

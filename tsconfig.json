@@ -17,6 +17,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/pages/goodbye.tsx", "src/components/svgLogout.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/pages/goodbye.tsx", "src/components/svgLogout.tsx", "jest.setup.js", "__tests__/components/AuthInput.test.jsx"],
   "exclude": ["node_modules"]
 }
