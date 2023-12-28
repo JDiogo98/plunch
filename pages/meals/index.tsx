@@ -11,7 +11,7 @@ import { Backgroud } from "@/components/background";
 import { fetchUserData } from "../../Context/contextAuthFunctions";
 import { useGlobalContext } from "../../Context/store";
 import { SearchSvg } from "../../public/landingImgs/searchSvg";
-import { addingTo } from "./mealFunctions";
+import { addingTo } from "../../Context/mealFunctions";
 import { MealsResults } from "@/components/mealsResults";
 
 const SearchPageContainer = styled.div`

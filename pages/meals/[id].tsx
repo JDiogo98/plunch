@@ -5,7 +5,7 @@ import { Instructions } from "@/components/Instructions";
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
 import { Backgroud } from "@/components/background";
 import { use, useEffect } from "react";
-import { getMealRecipe, splitIngredients } from "./mealFunctions";
+import { getMealRecipe, splitIngredients } from "../../Context/mealFunctions";
 import { useGlobalContext } from "../../Context/store";
 
 const MealsRecipeContainer = styled.div`

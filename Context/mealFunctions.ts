@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Meal } from "../../Context/SearchTypes";
+import { Meal } from "./SearchTypes";
 import dayjs from "dayjs";
 
 export async function getMealRecipe(id: string | string[] | undefined) {
