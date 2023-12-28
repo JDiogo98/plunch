@@ -1,13 +1,12 @@
 import styled from "styled-components";
-import { useGlobalContext } from "../../../Context/store";
-import { BlackLText, HeyComponent } from "@/components/heyComponent";
-import { fetchUserData } from "../../../Context/contextAuthFunctions";
+import HeyComponent from "@/components/heyComponent";
 import cookie from "cookie";
 import { GetServerSidePropsContext } from "next";
 import { BlackMText, GreyMText } from "@/components/textsAndSizes";
 import { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
+import { fetchUserData } from "../../Context/contextAuthFunctions";
 
 export const MyAccountButton = styled.button`
   color: #ffffff;

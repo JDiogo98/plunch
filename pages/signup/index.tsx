@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { HeyComponent } from "@/components/heyComponent";
+import HeyComponent from "@/components/heyComponent";
 import { TermsAndConditions } from "@/components/termsAndConditions";
 import { AuthContainer, AuthForm, defaultRequest, requestType } from "../login";
 import { BlackXLText } from "@/components/BlackXLText";
-import { AuthInput } from "@/components/AuthInput";
+import AuthInput from "@/components/AuthInput";
 import { AuthButton } from "@/components/AuthButton";
 import { Loader } from "@/components/Loader";
 import { FeedBackText } from "@/components/feedbackText";
