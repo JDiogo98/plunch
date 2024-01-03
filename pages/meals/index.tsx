@@ -123,10 +123,15 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 }
 
 const SearchMealsPage = ({ userData }: any) => {
+  // Create the state to search meals
   const [searchTerm, setSearchTerm] = useState<string>("");
+  // Getting the functions from the context
   const { meals, getSearchMeals, setNavOption, addMealProcess } =
     useGlobalContext();
+  // Create the LoadingState to display de the loader when the promisse is fetched
   const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  // The function that trigger the search at the context.
   const handleSearch = async (e: MouseEvent | FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
@@ -134,6 +139,7 @@ const SearchMealsPage = ({ userData }: any) => {
     setIsLoading(false);
   };
 
+  // the functions that set loading when the initial data still null and set the nav option to "search"
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);

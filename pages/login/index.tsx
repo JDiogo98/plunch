@@ -54,21 +54,26 @@ export const BlackSText = styled(BlackXSText)`
 `;
 
 function LogInPage() {
+  // Getting the functions from the Context
   const { setIsAuth, setNavOption } = useGlobalContext();
-
+  // Creating the states to consider when Logging into the account
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  // Creating the request to consider when displaying user feedback
   const [request, setRequest] = useState<requestType>(defaultRequest);
-
+  // Creating use Router to change between pages
   const router = useRouter();
 
+  // When the page is load, set the option at "login"
   useEffect(() => {
     setNavOption("login");
   }, []);
 
+  // The loading asyncFunction
   const onLogInSubmit = async (e: React.FormEvent) => {
     try {
       e.preventDefault();
+      // Set the request to show the Loader
       setRequest({
         isLoading: true,
         error: false,
@@ -76,6 +81,7 @@ function LogInPage() {
         submitted: false,
       });
 
+      // Post the credentials and waiting for the authToken
       const response = await axios.post(
         "https://x8ki-letl-twmt.n7.xano.io/api:pXhZqBYW/auth/login",
         { email, password }
@@ -86,14 +92,16 @@ function LogInPage() {
         isLoading: false,
         submitted: true,
       });
+      //Set the token as an cookie to be used in server side props
       setCookie("authToken", response.data.authToken);
       setIsAuth({ firstName: "", lastName: "", isAuth: true });
-
+      //When the login is sucessful push the app to the dashboard page
       setTimeout(() => {
         router.push("/dashboard");
       }, 1000);
     } catch (error: any) {
       console.log("Error at login");
+      // When the login gets a error, show the message as feedback to the user.
       setRequest({
         error: true,
         errorMessage: error.response.data.message,
