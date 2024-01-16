@@ -18,22 +18,26 @@ const SearchPageContainer = styled.div`
   display: flex;
   flex-direction: column;
   background-color: #ffffff;
-  padding: 1rem;
+  padding: 15px;
   height: 100%;
   border-radius: 15px;
-  width: 92%;
+  min-width: 420px;
   max-width: 700px;
   margin: auto;
   justify-self: center;
+  @media (min-width: 320px)  {
+    width: 92%;
+  }
 `;
 const SearchPageInput = styled.input`
   border-radius: 15px;
+  width: 60%;
   border: none;
-  padding: 0.6rem;
-  margin-left: 1rem;
+  padding: 10px;
+  margin-left: 15px;
   background-color: #ececec;
   outline: none;
-  font-size: 1.3rem;
+  font-size: 16px;
 `;
 
 const UnispiredButton = styled.button`
@@ -152,6 +156,7 @@ const SearchMealsPage = ({ userData }: any) => {
         }
       }
       setIsLoading(false);
+      getSearchMeals("a")
     };
 
     fetchData();
@@ -160,7 +165,7 @@ const SearchMealsPage = ({ userData }: any) => {
   return (
     <>
       <Backgroud></Backgroud>
-      <div style={{ display: "flex", width: "100%", justifyContent: "center" }}>
+      <div style={{ display: "flex", width: "100%", justifyContent: "start" }}>
         <SearchPageContainer>
           <form onSubmit={(e) => handleSearch(e)}>
             <SerchInputContainer>
@@ -176,7 +181,7 @@ const SearchMealsPage = ({ userData }: any) => {
             </SerchInputContainer>
           </form>
           <UnispiredButton onClick={() => getSearchMeals("random")}>
-            Unispired
+            Feeling Unispired?
           </UnispiredButton>
           {addMealProcess["currentDay"] && (
             <BlackMText>

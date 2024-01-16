@@ -8,7 +8,7 @@ import { useRouter } from "next/router";
 const MealResultContainer = styled.div`
   width: 120%;
   margin-bottom: 20px;
-  padding: 1rem;
+  padding: 15px;
   border-radius: 15px 15px 15px 15px;
   box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px;
   display: grid;
@@ -29,7 +29,7 @@ const MealResultImage = styled(Image)`
 `;
 
 const MealResultName = styled.p`
-  font-size: 1rem;
+  font-size: 16px;
   font-weight: 600;
   margin-left: 15px;
   text-decoration: none;
@@ -43,7 +43,7 @@ const MealCategoryName = styled(MealResultName)`
   color: #5b5b5b;
   font-weight: 400;
 
-  font-size: 0.85rem;
+  font-size: 14px;
   grid-area: category;
 `;
 

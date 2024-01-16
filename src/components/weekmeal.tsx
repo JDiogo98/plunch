@@ -178,8 +178,8 @@ export const WeekGridDiv = styled.table`
 const DateControlContainer = styled.div`
   display: grid;
   top: 0;
-  /* position: relative; */
   top: 100px;
+  min-width: 360px;
   width: 85%;
   margin: auto;
   align-items: center;

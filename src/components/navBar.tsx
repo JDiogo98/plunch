@@ -31,7 +31,7 @@ const NavBottomContainer = styled.nav`
 
 const NavTopContainer = styled(NavBottomContainer)`
   top: 0;
-  position: absolute;
+  position: fixed;
   background-color: #ffffff;
   z-index: 5;
   width: 100%;

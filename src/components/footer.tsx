@@ -10,10 +10,10 @@ import { WhatsSvg } from "../../public/WhatsSvg";
 
 const LandingFooter = styled.footer`
   display: flex;
+  min-width: 420px;
   flex-direction: column;
   align-items: center;
-  bottom: 0;
-  width: calc(100% - 30px);
+  /* width: calc(100% - 30px); */
   background-color: #c8161d;
   color: #ffffff;
   padding: 15px;
@@ -40,8 +40,11 @@ const DownloadsDiv = styled.div`
 `;
 
 const AppsLink = styled(Image)`
-  max-width: 80%;
+  max-width: 40%;
   height: auto;
+  @media (min-width: 320px)  {
+    max-width: 80%;
+  }
 `;
 
 const FooterLink = styled.span`
