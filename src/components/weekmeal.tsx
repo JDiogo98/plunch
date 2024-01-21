@@ -273,8 +273,12 @@ export default function WeekMeal({ userData }: any) {
   const [endOfTheWeek, setEndOfTheWeek] = useState(date.endOf("week"));
 
   if (Object.keys(sessionWeeks).length == 0) {
-    console.log({ [weekYear]: EmptyWeek });
-    setSessionWeeks({ ...sessionWeeks, [weekYear]: EmptyWeek });
+    setSessionWeeks({ [weekYear]: EmptyWeek });
+    setUpdatePlans(userData["id"], userData["plans_of_user"]["id"], {
+      ...sessionWeeks,
+      [weekYear]: EmptyWeek,
+    });
+    router.reload();
   }
 
   function add1Week() {

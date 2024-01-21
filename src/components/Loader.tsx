@@ -20,9 +20,7 @@ const LoaderContainer = styled.div`
   height: 70px;
 `;
 
-interface LoaderProps {
-  flag: boolean;
-}
+
 
 export const Loader: React.FC<LoaderProps> = ({ flag }) => {
   return (
