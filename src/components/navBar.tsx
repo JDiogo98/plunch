@@ -154,13 +154,13 @@ export const NavBar = ({ children }: any) => {
         children
       )}
 
-      {navOption == "login" || navOption == "signup"  && (
-        <NavTopContainer>
-          <div onClick={() => router.push("/")}>
-            <BackSvg></BackSvg>
-         </div>
-        </NavTopContainer>
-      )}
+      {(navOption == "login" || navOption == "signup") && 
+          <NavTopContainer>
+            <div onClick={() => router.push("/")}>
+              <BackSvg></BackSvg>
+            </div>
+          </NavTopContainer>
+        }
     </>
   );
 };

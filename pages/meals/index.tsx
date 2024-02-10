@@ -25,7 +25,7 @@ const SearchPageContainer = styled.div`
   max-width: 700px;
   margin: auto;
   justify-self: center;
-  @media (min-width: 320px)  {
+  @media (min-width: 320px) {
     width: 92%;
   }
 `;
@@ -43,7 +43,6 @@ const SearchPageInput = styled.input`
 const UnispiredButton = styled.button`
   width: 60%;
   margin: auto;
-  margin-top: 20px;
   border-radius: 15px;
   outline: none;
   border: none;
@@ -90,6 +89,19 @@ const SearchButton = styled.button`
   padding: 0;
   border-radius: 25px;
   border: none;
+`;
+
+const ISpan = styled.span`
+  border-radius: 50px;
+  background-color: white;
+  color: red;
+  padding: 5px;
+  cursor: pointer;
+  display: block;
+  border: 1px solid red;
+  &:hover {
+    display: none;
+  }
 `;
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
@@ -156,7 +168,7 @@ const SearchMealsPage = ({ userData }: any) => {
         }
       }
       setIsLoading(false);
-      getSearchMeals("a")
+      getSearchMeals("a");
     };
 
     fetchData();
@@ -180,9 +192,19 @@ const SearchMealsPage = ({ userData }: any) => {
               </SearchButton>
             </SerchInputContainer>
           </form>
-          <UnispiredButton onClick={() => getSearchMeals("random")}>
-            Feeling Unispired?
-          </UnispiredButton>
+
+          <div
+            style={{
+              display: "flex",
+              marginTop: "20px",
+              justifyContent: "center",
+            }}
+          >
+            <UnispiredButton onClick={() => getSearchMeals("random")}>
+              Feeling Unispired?
+            </UnispiredButton>
+            <ISpan>i</ISpan>
+          </div>
           {addMealProcess["currentDay"] && (
             <BlackMText>
               {addingTo(

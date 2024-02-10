@@ -47,7 +47,7 @@ export const TDWeekMeal: React.FC<{
     setAddMealProcess,
   } = useGlobalContext();
   const router = useRouter();
-
+ 
   const mealName = m["name"];
 
   const Delete = ({ handleDeleteClick }: any) => {
@@ -62,6 +62,9 @@ export const TDWeekMeal: React.FC<{
       </DeleteContainer>
     );
   };
+
+
+  
 
   const MealName = () => {
     return (

@@ -16,15 +16,14 @@ const GridContainer = styled.div`
   margin-top: 140px;
 `;
 
-
 // Getting the userData from the ServerSideProps
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-	// Getting the cookie to check the authToken at the backend
-	
+  // Getting the cookie to check the authToken at the backend
+
   const cookiesToken = context.req.headers.cookie || "";
   const parsedCookies = cookie.parse(cookiesToken);
   const authToken = parsedCookies.authToken;
-// if the token does't existing, redirect to he login page
+  // if the token does't existing, redirect to he login page
   if (!authToken) {
     return {
       redirect: {
@@ -36,13 +35,12 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   let userServerPropsResponse;
 
-// if the authToken exist try to check if its valid
+  // if the authToken exist try to check if its valid
   try {
-
-	//if its valid, store the userData and return it as a prop to the component.
+    //if its valid, store the userData and return it as a prop to the component.
     userServerPropsResponse = await fetchUserData(authToken);
   } catch (error) {
-	// if isn't valid redirect to he login page
+    // if isn't valid redirect to he login page
     console.error("Error fetching user data:", error);
     return {
       redirect: {
@@ -59,9 +57,9 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 }
 
 export default function WeekGrid({ userData }: any) {
- // getting the functions from the global context to change the states
+  // getting the functions from the global context to change the states
 
- const {
+  const {
     setNavOption,
     setIsAuth,
     setSessionWeeks,
@@ -69,11 +67,10 @@ export default function WeekGrid({ userData }: any) {
     setAddMealProcess,
   } = useGlobalContext();
 
-// use router to redirect to another pages
+  // use router to redirect to another pages
   const router = useRouter();
 
-
-// when the component is mounted the the nav option to "home" and if the prop is null reload after 4s. 
+  // when the component is mounted the the nav option to "home" and if the prop is null reload after 4s.
   useEffect(() => {
     setNavOption("home");
     if (userData == null) {
@@ -81,7 +78,7 @@ export default function WeekGrid({ userData }: any) {
         router.reload();
       }, 4000);
     }
-// if the userData is valid, set the data to the states.
+    // if the userData is valid, set the data to the states.
     if (userData !== null) {
       setIsAuth({
         firstName: userData["first_name"],

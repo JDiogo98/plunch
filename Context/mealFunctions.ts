@@ -3,15 +3,10 @@ import { Meal } from "./SearchTypes";
 import dayjs from "dayjs";
 
 export async function getMealRecipe(id: string | string[] | undefined) {
-  try {
-    console.log("teste do id na função ", id);
-    const dataResponse = await axios.get(
-      "https://www.themealdb.com/api/json/v1/1/lookup.php?i=" + id
-    );
-    return dataResponse.data;
-  } catch (error) {
-    console.log("Error at getting recipe", error);
-  }
+  const dataResponse = await axios.get(
+    "https://www.themealdb.com/api/json/v1/1/lookup.php?i=" + id
+  );
+  return dataResponse.data;
 }
 
 export function splitIngredients(list: Meal) {
@@ -22,8 +17,13 @@ export function splitIngredients(list: Meal) {
 
   const returnList = [];
 
+  const ingredientsIndex = 29; // This relates to the data structure, where the database response always contains the same number of parameters regardless of the required ingredients. The quantities and ingredients follow the same order, with the first corresponding to 29 and the second to 29+1.
+
   for (let i = 0; i < filteredIngredients.length; i++) {
-    returnList.push([filteredIngredients[i][1], Ingredients[i + 29][1]]);
+    returnList.push([
+      filteredIngredients[i][1],
+      Ingredients[i + ingredientsIndex][1],
+    ]);
   }
 
   return returnList;
@@ -66,7 +66,10 @@ function toAddMeal(m: any) {
 
 export function addingTo(d: any, y: any, m: any) {
   const currentWeek = y.split("_");
-  const amountOfDays = currentWeek[0] * 7 + toAddDays(d[2] * 1);
+
+  const weekAtTheYear = +d[2];
+
+  const amountOfDays = currentWeek[0] * 7 + toAddDays(weekAtTheYear);
   console.log(amountOfDays);
 
   const date = dayjs(`01-01-20${currentWeek[1]}`).add(amountOfDays, "day");

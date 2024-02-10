@@ -108,7 +108,9 @@ export const MealRecipe = ({ MealData }: any) => {
             <MealIngredients>
               {MealData &&
                 splitIngredients(MealData).map((i: any) => {
-                  return <Ingredient ing={i} key={i}></Ingredient>;
+                  const ingAndAmount = {ing: i[0], amount: i[i]}
+
+                  return <Ingredient ing={ingAndAmount} key={i}></Ingredient>;
                 })}
             </MealIngredients>
             <Instructions inst={strInstructions}></Instructions>

@@ -18,13 +18,16 @@ const IngredientQnt = styled(IngredientName)`
   grid-column: 3/4;
   place-self: end;
 `;
-export const Ingredient = (ing: any) => {
+export const Ingredient = ({ ing }: any) => {
+  let ingredient = ing.ing;
+  let amount = ing.amount;
+
   return (
     <>
       <IngredientContainer>
         <CutlerySvg />
-        <IngredientName>{ing["ing"][0]}</IngredientName>
-        <IngredientQnt>{ing["ing"][1]}</IngredientQnt>
+        <IngredientName>{ingredient}</IngredientName>
+        <IngredientQnt>{amount}</IngredientQnt>
       </IngredientContainer>
     </>
   );
