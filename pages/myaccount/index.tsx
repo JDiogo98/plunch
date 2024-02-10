@@ -7,6 +7,8 @@ import { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { fetchUserData } from "../../Context/contextAuthFunctions";
+import { log } from "node:console";
+import { deleteCookie } from "cookies-next";
 
 export const MyAccountButton = styled.button`
   color: #ffffff;
@@ -27,7 +29,7 @@ export const MyAccountButton = styled.button`
   }
 `;
 
-const MyAccountContainer = styled.div`
+const MyAccountChangeForm = styled.form`
   max-width: 500px;
   margin: auto;
   padding: 1rem;
@@ -102,21 +104,31 @@ const MyAccount = ({ userData }: any) => {
 
   const router = useRouter();
 
-  const updateValues = async () => {
-    axios.patch(
-      `https://x8ki-letl-twmt.n7.xano.io/api:pXhZqBYW/user/${userData.id}`,
-      {
-        first_name: firstName,
-        last_name: lastName,
-        email,
-      }
-    );
-    router.reload();
-  };
+  function updateValues(e: React.FormEvent) {
+    e.preventDefault();
+
+    try {
+      axios.patch(
+        `https://x8ki-letl-twmt.n7.xano.io/api:pXhZqBYW/user/${userData.id}`,
+        {
+          first_name: firstName,
+          last_name: lastName,
+          password,
+          email,
+        }
+      );
+      alert("Changes applied");
+      deleteCookie("authToken");
+      router.push("/");
+    } catch (error) {
+      deleteCookie("authToken");
+      router.push("/");
+    }
+  }
 
   return (
     <>
-      <MyAccountContainer>
+      <MyAccountChangeForm onSubmit={(e: React.FormEvent) => updateValues(e)}>
         <HeyComponent firstName={userData.first_name} fromMyAccount={true} />
         <MyDataContainer>
           <MyAccountParams>First Name:</MyAccountParams>
@@ -143,14 +155,13 @@ const MyAccount = ({ userData }: any) => {
           <MyAccountParams>Password:</MyAccountParams>
           <MyAccountInput
             type="password"
-            value={password}
-            placeholder="******"
+            required
             onChange={(e) => setPassword(e.target.value)}
           />
         </MyDataContainer>
 
-        <MyAccountButton onClick={updateValues}>Change</MyAccountButton>
-      </MyAccountContainer>
+        <MyAccountButton>Change</MyAccountButton>
+      </MyAccountChangeForm>
     </>
   );
 };
